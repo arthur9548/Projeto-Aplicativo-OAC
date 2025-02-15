@@ -8,9 +8,11 @@
 
 MAIN:
 call INIT_FRAMES
-GET_BUFFER_TO_DRAW(a0)
-li t0, -1
-sw t0, 0(a0)
+li a0, 0x0f7
+call FILL_SCREEN
+call SWAP_FRAMES
+li a0, 0x00f
+call FILL_SCREEN
 call SWAP_FRAMES
 exit_loop
 
