@@ -64,5 +64,14 @@ end_col_draw_image:
 end_row_draw_image:
 	ret
 		
-	
-	
+#desenha um tile de tamanho fixo na tela
+#a0: endereço da imagem
+#a1: X
+#a2: Y
+DRAW_TILE:
+	memo(ra) #função de ordem superior
+	li a3, TILE_W
+	li a4, TILE_H #tamanhos fixos do tile
+	call DRAW_IMAGE
+	unmemo(ra)
+	ret
