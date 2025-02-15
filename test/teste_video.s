@@ -1,8 +1,16 @@
 # teste da renderização visual
 
 .include "../src/data.s"
+
+.text
+
 .include "../src/macros.s"
 .include "../src/consts.s"
+
+MAIN:
+li a0, 0
+add a0, a0, a0
+exit
 
 INIT_VIDEO: #inicializa frames
 li t0, CURRENT_DISPLAY_FRAME_ADDRESS

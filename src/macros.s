@@ -8,6 +8,11 @@
 	addi sp, sp, 4
 .end_macro
 
+.macro exit() #sai do programa
+	li a7, 10
+	ecall
+.end_macro
+
 .macro GET_BUFFER_TO_DRAW(%reg) #obter buffer para desenhar na tela
 	memo s11
 	la %reg, FRAME_TO_DRAW
