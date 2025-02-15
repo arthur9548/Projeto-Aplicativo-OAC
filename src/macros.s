@@ -8,17 +8,21 @@
 	addi sp, sp, 4
 .end_macro
 
-.macro exit() #sai do programa
+.macro exit_system() #sai do programa e volta para o SO
 	li a7, 10
 	ecall
 .end_macro
 
+.macro exit_loop() #entra em um loop infinito
+	EXIT_LOOP: j EXIT_LOOP
+.end_macro
+
 .macro GET_BUFFER_TO_DRAW(%reg) #obter buffer para desenhar na tela
-	memo s11
+	memo(s11)
 	la %reg, FRAME_TO_DRAW
 	lb %reg, 0(%reg)
 	slli %reg, %reg, 20
 	li s11, BUFFER_ADDRESS
 	add %reg, s11, %reg
-	unmemo s11
+	unmemo(s11)
 .end_macro
