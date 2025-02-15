@@ -6,3 +6,4 @@ Repositório para o projeto final de OAC. Atualmente em desenvolvimento
 
 Fontes utilizadas:
 - https://github.com/RISCV-Games/Mage-Embler/tree/main
+- https://github.com/LeoRiether/FPGRARS
