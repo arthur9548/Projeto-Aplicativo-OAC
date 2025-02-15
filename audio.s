@@ -1,4 +1,15 @@
 #source: https://github.com/RISCV-Games/Mage-Embler/blob/main/src/audio.s
+
+#from macros.s:
+.macro DE1(%reg,%salto)
+	li %reg, 0x10008000	# carrega tp
+	bne gp, %reg, %salto	# Na DE1 gp = 0 ! Não tem segmento .extern
+.end_macro
+
+#from consts.s:
+.eqv NOTE_DATA 0xFF200178
+.eqv NOTE_CLOCK 0xFF20017C
+
 #################################################
 #	Toca um som sem interromper o jogo.
 # É necessário passar como argumento uma lista de
