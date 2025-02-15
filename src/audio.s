@@ -1,12 +1,12 @@
 #source: https://github.com/RISCV-Games/Mage-Embler/blob/main/src/audio.s
 
-#from macros.s:
+#from their macros.s:
 .macro DE1(%reg,%salto)
 	li %reg, 0x10008000	# carrega tp
 	bne gp, %reg, %salto	# Na DE1 gp = 0 ! Não tem segmento .extern
 .end_macro
 
-#from consts.s:
+#from their consts.s:
 .eqv NOTE_DATA 0xFF200178
 .eqv NOTE_CLOCK 0xFF20017C
 
