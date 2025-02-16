@@ -38,7 +38,7 @@ call SWAP_FRAMES
 GET_BUFFER_TO_DRAW(a7)
 sleep(1000)
 li a0, 0x0ff
-li a1, 64
+li a1, 80
 call FILL_SCREEN_FROM
 call SWAP_FRAMES
 exit_loop
