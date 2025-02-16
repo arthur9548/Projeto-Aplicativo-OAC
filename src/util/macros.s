@@ -19,6 +19,16 @@
 	EXIT_LOOP: j EXIT_LOOP
 .end_macro
 
+.macro sleep(%t) #para a execução pelo tempo em ms
+	memo(a0)
+	memo(a7)
+	li a0, %t
+	li a7, 32
+	ecall
+	unmemo(a7)
+	unmemo(a0)
+.end_macro
+
 #debug
 .macro flush_output() #imprime quebra de linha
 	memo(a0)
