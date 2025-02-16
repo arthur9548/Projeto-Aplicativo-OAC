@@ -15,7 +15,7 @@ li a0, water_tile
 li a1, -8
 li a2, 232
 call DRAW_TILE
-li a0, purple_tile
+li a0, grass_tile
 li a1, 300
 li a2, 230
 call DRAW_TILE
@@ -23,7 +23,7 @@ li a0, water_tile
 li a1, 312
 li a2, -8
 call DRAW_TILE
-li a0, purple_tile
+li a0, grass_tile
 li a1, 16
 li a2, 16
 call DRAW_TILE

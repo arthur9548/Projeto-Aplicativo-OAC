@@ -88,6 +88,38 @@ DRAW_TILE:
 #a0: endereço do mapa
 #a7: tela (não mudado)
 DRAW_INITIAL_MAP:
+	memo(ra) #função de ordem superior
 	li t0, 0 #x
 	li t1, 0 #y
+	li t2, MAP_W 
+	li t6, TILE_W
+	mul t2, t2, t6 #t2 é o X máximo do mapa
+	li t3, MAP_H
+	li t6, TILE_H
+	mul t3, t3, t6 #t3 é o Y máximo do mapa
+row_loop_draw_initial_map:
+	bge t0, t2, end_row_draw_initial_map
+	li t1, 0 #zera o y
+col_loop_draw_initial_map:
+		bge t1, t3, end_col_draw_initial_map #descobrir o tipo do tile
+		lb t6, 0(a0) #tile atual
+		memo(a0) #guardar o endereço do mapa
+		beq t6, zero, if1_cldim
+		la a0, grass_tile
+	j c1_cldim
+if1_cldim:
+			la a0, water_tile
+c1_cldim: 
+		mv a1, t0
+		mv a2, t1
+		call DRAW_TILE #desenhamos o tile
+		unmemo(a0) #recuperamos o endereço do mapa
+		addi t1, t1, MAP_H #Y aumenta
+		addi a0, a0, 1 #andamos para o próximo endereço
+		j col_loop_draw_initial_map
+end_col_draw_initial_map:
+	addi t0, t0, MAP_W #X aumenta
+	j row_loop_draw_initial_map
+end_row_draw_initial_map:
+	unmemo(ra)
 	ret
