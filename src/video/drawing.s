@@ -5,15 +5,14 @@
 FILL_SCREEN_FROM: #preenche a tela com a cor em a0, a partir da linha a1
 	mv t0, a7 #t0 recebe a tela
 	li t1, PIXELS_IN_ROW
-	mul a1, a1, t1
+	mul a1, a1, t1 #pixels descartados
 	li t1, NUMBER_OF_SCREEN_PIXELS 
-	sub t1, t1, a1
-	add t0, t0, a1
 	add t1, t0, t1 #fim da tela
+	add t0, t0, a1 #inicia a tela a partir da linha certa
 loop_fill_screen_from:
 		bge t0, t1, end_fill_screen_from
-		sb a0, 0(t0)
-		addi t0, t0, 1 #anda 1 byte na tela
+		sb a0, 0(t0) #armazena o valor da cor no pixel
+		addi t0, t0, 1 #anda 1 pixel na tela
 		j loop_fill_screen_from
 end_fill_screen_from:
 	ret
@@ -106,17 +105,19 @@ row_loop_draw_map:
 	bge t0, t2, end_row_draw_map
 	li t1, 0 #zera o y
 col_loop_draw_map:
-		bge t1, t3, end_col_draw_map #descobrir o tipo do tile
+		bge t1, t3, end_col_draw_map 
 		lb t6, 0(a0) #tile atual
+		
+		#descobrir o tipo do tile
 		memo(a0) #guardar o endereço do mapa
-		beq t6, zero, if1_cldm
-		la a0, grass_tile
+		beq t6, zero, if1_cldm #ver se é 0
+		la a0, grass_tile #é 1
 	j c1_cldm
 if1_cldm:
-			la a0, water_tile
+			la a0, water_tile #é 0
 c1_cldm: 
-		mv a1, t0
-		mv a2, t1
+		mv a1, t0 #x
+		mv a2, t1 #y
 		memo(t0)
 		memo(t1)
 		memo(t2)
@@ -134,5 +135,5 @@ end_col_draw_map:
 	addi t0, t0, TILE_W #X aumenta
 	j row_loop_draw_map
 end_row_draw_map:
-	unmemo(ra)
+	unmemo(ra) #recuperar o endereço de retorno
 	ret
