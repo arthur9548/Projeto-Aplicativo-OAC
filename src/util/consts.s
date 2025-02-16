@@ -6,3 +6,6 @@
 .eqv PIXELS_IN_COL 240
 .eqv TILE_W 16
 .eqv TILE_H 16
+.eqv MAP_W 20
+.eqv MAP_H 10
+.eqv MAP_SIZE 200

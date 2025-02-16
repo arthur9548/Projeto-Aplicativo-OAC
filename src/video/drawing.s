@@ -83,3 +83,11 @@ DRAW_TILE:
 	call DRAW_IMAGE
 	unmemo(ra)
 	ret
+	
+#desenha a disposição inicial do mapa na tela
+#a0: endereço do mapa
+#a7: tela (não mudado)
+DRAW_INITIAL_MAP:
+	li t0, 0 #x
+	li t1, 0 #y
+	ret
