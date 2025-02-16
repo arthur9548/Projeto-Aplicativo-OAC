@@ -24,7 +24,7 @@ Sobre testes:
 Para testar, crie um arquivo incluindo apenas os módulos necessários para o teste. Normalmente, src/data/data.s, src/util/util.s e src/pasta/pasta.s (de acordo com a pasta do tipo de teste).
 
 Sobre as fases:
-- Mapa Wx15 (W variável, provavelmente por volta de 40)
+- Mapa Wx10 (W variável, provavelmente por volta de 40)
 
 Sobre vídeo:
 - Tiles 16x16 (tela de 20x15 tiles)
