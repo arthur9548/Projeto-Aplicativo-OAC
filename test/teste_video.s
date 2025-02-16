@@ -1,8 +1,7 @@
 # teste da renderização visual
 
-.include "../src/data.s"
-.include "../src/consts.s"
-.include "../src/macros.s"
+.include "../src/data/data.s"
+.include "../src/util/util.s"
 
 .text
 
@@ -37,4 +36,4 @@ call DRAW_IMAGE
 call SWAP_FRAMES
 exit_loop
 
-.include "../src/video.s"
+.include "../src/video/video.s"
