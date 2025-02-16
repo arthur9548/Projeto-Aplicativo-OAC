@@ -84,32 +84,37 @@ DRAW_TILE:
 	unmemo(ra)
 	ret
 	
-#desenha a disposição inicial do mapa na tela
+#desenha o mapa na tela de acordo com o offset
 #a0: endereço do mapa
+#a1: offset no X
 #a7: tela (não mudado)
-DRAW_INITIAL_MAP:
-	memo(ra) #função de ordem superior
-	li t0, 0 #x
-	li t1, 0 #y
-	li t2, MAP_W 
+DRAW_MAP:
+	lbu t2, 0(a0) #dimensão no X
 	li t6, TILE_W
 	mul t2, t2, t6 #t2 é o X máximo do mapa
-	li t3, MAP_H
+	li t3, MAP_H #dimensão no Y é MAP_H
 	li t6, TILE_H
 	mul t3, t3, t6 #t3 é o Y máximo do mapa
-row_loop_draw_initial_map:
-	bge t0, t2, end_row_draw_initial_map
+	
+	addi a0, a0, 1 #passa para o início dos dados
+	memo(ra) #função de ordem superior
+	li t0, 0 #x
+	sub t0, t0, a1 #offset no X
+	sub t2, t2, a1 #offset no X máximo
+	li t1, 0 #y
+row_loop_draw_map:
+	bge t0, t2, end_row_draw_map
 	li t1, 0 #zera o y
-col_loop_draw_initial_map:
-		bge t1, t3, end_col_draw_initial_map #descobrir o tipo do tile
+col_loop_draw_map:
+		bge t1, t3, end_col_draw_map #descobrir o tipo do tile
 		lb t6, 0(a0) #tile atual
 		memo(a0) #guardar o endereço do mapa
-		beq t6, zero, if1_cldim
+		beq t6, zero, if1_cldm
 		la a0, grass_tile
-	j c1_cldim
-if1_cldim:
+	j c1_cldm
+if1_cldm:
 			la a0, water_tile
-c1_cldim: 
+c1_cldm: 
 		mv a1, t0
 		mv a2, t1
 		memo(t0)
@@ -124,10 +129,10 @@ c1_cldim:
 		unmemo(a0) #recuperamos o endereço do mapa
 		addi t1, t1, TILE_H #Y aumenta
 		addi a0, a0, 1 #andamos para o próximo endereço
-		j col_loop_draw_initial_map
-end_col_draw_initial_map:
+		j col_loop_draw_map
+end_col_draw_map:
 	addi t0, t0, TILE_W #X aumenta
-	j row_loop_draw_initial_map
-end_row_draw_initial_map:
+	j row_loop_draw_map
+end_row_draw_map:
 	unmemo(ra)
 	ret
