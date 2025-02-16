@@ -1,9 +1,11 @@
 # funcoes de desenho
+# a7 sempre é o frame a ser desenhado (GET_BUFFER_TO_DRAW)
+# e nunca modificamos o a7
 
 FILL_SCREEN: #preenche a tela com a cor em a0
-	GET_BUFFER_TO_DRAW(t0) #endereço da tela
+	mv t0, a7 #t0 recebe a tela
 	li t1, NUMBER_OF_SCREEN_PIXELS 
-	add t1, t0, t1 #fim da tela
+	add t1, a7, t1 #fim da tela
 loop_fill_screen:
 		bge t0, t1, end_fill_screen
 		sb a0, 0(t0)
@@ -18,8 +20,9 @@ end_fill_screen:
 #a2: Y
 #a3: W
 #a4: H
+#a7: tela (não mudado)
 DRAW_IMAGE:
-	GET_BUFFER_TO_DRAW(t0) #t0 será o endereço de desenho
+	mv t0, a7 #t0 será o endereço de desenho
 	add t0, t0, a1
 	li t6, PIXELS_IN_ROW #t6 = 320
 	mul t1, t6, a2
@@ -68,6 +71,7 @@ end_row_draw_image:
 #a0: endereço da imagem
 #a1: X
 #a2: Y
+#a7: tela (não mudado)
 DRAW_TILE:
 	memo(ra) #função de ordem superior
 	li a3, TILE_W

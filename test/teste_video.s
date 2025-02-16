@@ -8,6 +8,7 @@
 MAIN:
 call INIT_FRAMES
 li a0, 0x0ff
+GET_BUFFER_TO_DRAW(a7)
 call FILL_SCREEN
 li a0, enderman_transparent
 li a1, -6
