@@ -5,7 +5,7 @@ from matrix_transposer import transpose
 
 codigos = {0: "Fundo", 1: "Bloco"}
 print("Dados atuais sobre o mapa:")
-print("Códigos")
+print("Códigos suportados até agora")
 for k, v in codigos.items():
     print(str(k) + ":", v)
 print()
