@@ -112,13 +112,21 @@ if1_cldim:
 c1_cldim: 
 		mv a1, t0
 		mv a2, t1
+		memo(t0)
+		memo(t1)
+		memo(t2)
+		memo(t3) #precisa-se guardar o estado da função atual
 		call DRAW_TILE #desenhamos o tile
+		unmemo(t3)
+		unmemo(t2)
+		unmemo(t1)
+		unmemo(t0) #recuperamos o estado
 		unmemo(a0) #recuperamos o endereço do mapa
-		addi t1, t1, MAP_H #Y aumenta
+		addi t1, t1, TILE_H #Y aumenta
 		addi a0, a0, 1 #andamos para o próximo endereço
 		j col_loop_draw_initial_map
 end_col_draw_initial_map:
-	addi t0, t0, MAP_W #X aumenta
+	addi t0, t0, TILE_W #X aumenta
 	j row_loop_draw_initial_map
 end_row_draw_initial_map:
 	unmemo(ra)

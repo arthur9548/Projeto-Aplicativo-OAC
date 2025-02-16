@@ -28,6 +28,14 @@ li a1, 16
 li a2, 16
 call DRAW_TILE
 call SWAP_FRAMES
+sleep(100)
+GET_BUFFER_TO_DRAW(a7)
+la a0, mapa_de_testes
+call DRAW_INITIAL_MAP
+li a0, 7
+li a1, 160
+call FILL_SCREEN_FROM
+call SWAP_FRAMES
 exit_loop
 
 TRY_MENU: #a1 = tamanho de teste, a7 = tela
