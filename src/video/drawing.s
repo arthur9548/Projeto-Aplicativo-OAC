@@ -2,16 +2,20 @@
 # a7 sempre é o frame a ser desenhado (GET_BUFFER_TO_DRAW)
 # e nunca modificamos o a7
 
-FILL_SCREEN: #preenche a tela com a cor em a0
+FILL_SCREEN_FROM: #preenche a tela com a cor em a0, a partir da linha a1
 	mv t0, a7 #t0 recebe a tela
+	li t1, PIXELS_IN_ROW
+	mul a1, a1, t1
 	li t1, NUMBER_OF_SCREEN_PIXELS 
-	add t1, a7, t1 #fim da tela
-loop_fill_screen:
-		bge t0, t1, end_fill_screen
+	sub t1, t1, a1
+	add t0, t0, a1
+	add t1, t0, t1 #fim da tela
+loop_fill_screen_from:
+		bge t0, t1, end_fill_screen_from
 		sb a0, 0(t0)
 		addi t0, t0, 1 #anda 1 byte na tela
-		j loop_fill_screen
-end_fill_screen:
+		j loop_fill_screen_from
+end_fill_screen_from:
 	ret
 
 #desenha uma imagem qualquer na tela, apenas nos espaços com intersecção com a tela real
