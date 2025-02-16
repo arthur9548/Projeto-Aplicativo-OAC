@@ -38,7 +38,9 @@ call SWAP_FRAMES
 GET_BUFFER_TO_DRAW(a7)
 sleep(1000)
 li a0, 0x0ff
-li a1, 80
+call FILL_SCREEN
+li a0, 0x03
+li a1, 160
 call FILL_SCREEN_FROM
 call SWAP_FRAMES
 exit_loop
@@ -49,8 +51,8 @@ FILL_SCREEN_FROM: #preenche a tela com a cor em a0, a partir da linha a1
 	mul a1, a1, t1
 	li t1, NUMBER_OF_SCREEN_PIXELS 
 	sub t1, t1, a1
-	add a0, a0, a1
-	add t1, a7, t1 #fim da tela
+	add t0, t0, a1
+	add t1, t0, t1 #fim da tela
 loop_fill_screen_from:
 		bge t0, t1, end_fill_screen_from
 		sb a0, 0(t0)
