@@ -7,17 +7,12 @@
 .text
 
 MAIN:
-#init phase
-la t1, MAP_TILE_SPRITES
-la t0, brick_tile
-sw t0, 0(t1)
-la t0, metal_tile
-sw t0, 4(t1)
-la t0, water_tile
-sw t0, 8(t1)
-la t0, mapa_de_testes
-la t1, MAP_ADDRESS
-sw t0, 0(t1)
+	call GAME_CONTROL
+	call GAME_RENDER
+	j MAIN
+
+li a0, 0
+call INIT_MAP
 
 #init game
 la s0, GAME_STATE
@@ -43,7 +38,7 @@ lh t0, 0(t1)
 addi t0, t0, 2
 sh t0, 0(t1)
 call GAME_RENDER
-sleep(1000)
+sleep(10)
 j ACTION
 
 END:
@@ -56,3 +51,4 @@ exit_loop
 
 .include "../src/video/video.s"
 .include "../SYSTEMv24.s"
+.include "../src/logic/control.s"

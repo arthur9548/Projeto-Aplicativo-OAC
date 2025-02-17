@@ -18,6 +18,9 @@ GAME_RENDER:
 	li t1, GAME_STATE_OVER #se chegou ao fim do jogo
 	beq t0, t1, GAME_RENDER_OVER
 	
+	li t1, GAME_STATE_CONFIG #se a fase deve ser reiniciada
+	beq t0, t1, GAME_RENDER_CONFIG
+	
 RET_GAME_RENDER:
 	call SWAP_FRAMES
 	unmemo(ra)
@@ -61,6 +64,10 @@ GAME_RENDER_OVER:
 	li a1, 0
 	call FILL_SCREEN_FROM
 	call WRITE_END
+	j RET_GAME_RENDER
+	
+GAME_RENDER_CONFIG:
+	#mudar ?
 	j RET_GAME_RENDER
 
 .include "frames.s"

@@ -2,11 +2,13 @@
 .eqv GAME_STATE_INIT 0
 .eqv GAME_STATE_ACTION 1
 .eqv GAME_STATE_OVER 2
+.eqv GAME_STATE_CONFIG 3
 
 # Constantes de fase
 .eqv MAP_W 20
 .eqv MAP_H 10
 .eqv MAP_SIZE 200
+.eqv FINAL_MAP_INDEX 3
 
 # Constantes de display:
 .eqv CURRENT_DISPLAY_FRAME_ADDRESS 0xFF200604
