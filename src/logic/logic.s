@@ -2,7 +2,11 @@
 # inclui todos os subarquivos de lógica e 
 # junta as funcionalidades
 
-GAME_LOGIC:	
+GET_INPUT:
+	
+
+GAME_LOGIC:
+	
 	#loop de lógica do jogo
 	#reponsável por:
 	#movimentar os objetos

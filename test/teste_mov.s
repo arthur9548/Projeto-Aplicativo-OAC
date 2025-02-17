@@ -1,11 +1,14 @@
-# codigo para manipulação geral de vídeo
 
-INIT:
-	memo(ra)
-	call INIT_FRAMES
-	unmemo(ra)
-	ret
-GAME_RENDER:
+.include "../src/data/data.s"
+.include "../src/util/util.s"
+
+.text
+call INIT_FRAMES
+MAIN:
+	
+	
+
+
 	memo(ra)
 	#primeiro descobre qual é o estado atual do jogo pra saber o que renderizar
 	
@@ -19,16 +22,17 @@ GAME_RENDER:
 	#desenha as outras informações do menu
 	
 	#entende qual é o mapa e o offset
+	la a0, mapa_de_testes
+	li a1, 0
 	call DRAW_MAP
 	
 	#itera pelos personagens, inimigos e projéteis
 	#pra cada um, pega o endereço da imagem e desenha na posição X Y certa
-	call DRAW_TILE #todo mundo é tile na teoria
+	# call DRAW_TILE #todo mundo é tile na teoria
 	
 	call SWAP_FRAMES
 	unmemo(ra)
-	ret
 	
-
-.include "frames.s"
-.include "drawing.s"
+	j MAIN
+	
+.include "../src/video/video.s"
