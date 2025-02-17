@@ -30,9 +30,11 @@ GAME_RENDER_INIT:
 	j RET_GAME_RENDER
 	
 GAME_RENDER_ACTION:
-	#desenha as outras informações do menu
+	#desenha as informações do menu
 	call DRAW_MENU
-	#falta escrever as coisas do menu
+	memo(a7)
+	call WRITE_MENU
+	unmemo(a7)
 	
 	memo(s0)
 	la s0, MAP_OFFSET

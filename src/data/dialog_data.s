@@ -9,3 +9,6 @@ STRING_SOON: .string "The game will start soon!"
 
 STRING_WIN: .string "Congratulations! You win!"
 STRING_SCORE: .string "Score:"
+STRING_HP: .string "HP:"
+STRING_TIME: .string "Time:"
+STRING_COOLDOWN: .string "Status:"

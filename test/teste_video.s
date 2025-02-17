@@ -11,7 +11,7 @@ la s0, GAME_STATE
 li t0, GAME_STATE_INIT
 sb t0, 0(s0)
 call GAME_RENDER
-sleep(2000)
+sleep(2)
 li t0, GAME_STATE_ACTION
 sb t0, 0(s0)
 la t0, mapa_de_testes
@@ -30,7 +30,7 @@ lh t0, 0(t1)
 addi t0, t0, 2
 sh t0, 0(t1)
 call GAME_RENDER
-sleep(10)
+sleep(1000)
 j ACTION
 END:
 sleep(1000)
