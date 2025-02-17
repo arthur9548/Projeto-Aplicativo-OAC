@@ -16,7 +16,7 @@
 .end_macro
 
 .macro exit_loop() #entra em um loop infinito
-	EXIT_LOOP: j EXIT_LOOP
+EXIT_LOOP: j EXIT_LOOP
 .end_macro
 
 .macro sleep(%t) #para a execução pelo tempo em ms

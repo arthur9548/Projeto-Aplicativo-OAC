@@ -26,15 +26,12 @@ RET_GAME_RENDER:
 GAME_RENDER_INIT:
 	call INIT_FRAMES
 	call WRITE_START
-	call SWAP_FRAMES
 	j RET_GAME_RENDER
 	
 GAME_RENDER_ACTION:
 	#desenha as informações do menu
 	call DRAW_MENU
-	memo(a7)
 	call WRITE_MENU
-	unmemo(a7)
 	
 	memo(s0)
 	la s0, MAP_OFFSET
@@ -70,3 +67,4 @@ GAME_RENDER_OVER:
 .include "drawing.s"
 .include "sprites.s"
 .include "writing.s"
+.include "printer.s"

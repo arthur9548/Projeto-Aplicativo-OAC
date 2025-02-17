@@ -3,11 +3,9 @@
 .data
 
 .include "../../sprites/sprites.s"
-.include "../../sprites/test_sprites.s"
 .include "map_info.s"
 .include "player_data.s"
 .include "map_data.s"
-.include "player_data.s"
 .include "dialog_data.s"
 
 #Dados do jogo:
