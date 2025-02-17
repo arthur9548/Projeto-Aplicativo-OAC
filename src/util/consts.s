@@ -3,6 +3,11 @@
 .eqv GAME_STATE_ACTION 1
 .eqv GAME_STATE_OVER 2
 
+# Constantes de fase
+.eqv MAP_W 20
+.eqv MAP_H 10
+.eqv MAP_SIZE 200
+
 # Constantes de display:
 .eqv CURRENT_DISPLAY_FRAME_ADDRESS 0xFF200604
 .eqv BUFFER_ADDRESS 0xFF000000
@@ -11,9 +16,6 @@
 .eqv PIXELS_IN_COL 240
 .eqv TILE_W 16
 .eqv TILE_H 16
-.eqv MAP_W 20
-.eqv MAP_H 10
-.eqv MAP_SIZE 200
 .eqv MENU_X 160
 .eqv MENU_COLOR 0b10010111 
 
