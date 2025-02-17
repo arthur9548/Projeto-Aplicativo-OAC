@@ -5,6 +5,7 @@
 .include "../../sprites/sprites.s"
 .include "map.s"
 
+
 #Dados de display:
 FRAME_TO_DRAW: .byte 0 #0 ou 1
 

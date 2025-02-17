@@ -14,6 +14,9 @@ GAME_LOGIC:
 	#talvez fique responsável por:
 	#ler input
 	#calcular o estado do jogo e as transições de estado
+	
+	
+	
 	ret
 	
 #incluir aqui os outros arquivos de lógica:
