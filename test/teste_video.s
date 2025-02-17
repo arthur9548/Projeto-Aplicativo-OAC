@@ -2,6 +2,7 @@
 
 .include "../src/util/util.s"
 .include "../src/data/data.s"
+.include "../MACROSv24.s"
 
 .text
 
@@ -10,6 +11,7 @@ la s0, GAME_STATE
 li t0, GAME_STATE_INIT
 sb t0, 0(s0)
 call GAME_RENDER
+sleep(2000)
 li t0, GAME_STATE_ACTION
 sb t0, 0(s0)
 la t0, mapa_de_testes
@@ -148,3 +150,4 @@ TRY_MENU: #a1 = tamanho de teste, a7 = tela
 	call SWAP_FRAMES
 
 .include "../src/video/video.s"
+.include "../SYSTEMv24.s"

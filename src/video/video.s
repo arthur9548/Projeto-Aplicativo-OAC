@@ -25,7 +25,7 @@ RET_GAME_RENDER:
 
 GAME_RENDER_INIT:
 	call INIT_FRAMES
-	#deveria mostrar as instruções
+	call WRITE_START
 	call SWAP_FRAMES
 	j RET_GAME_RENDER
 	
@@ -61,9 +61,10 @@ GAME_RENDER_OVER:
 	li a0, 0
 	li a1, 0
 	call FILL_SCREEN_FROM
-	#deveria escrever mensagem de final
+	call WRITE_END
 	j RET_GAME_RENDER
 
 .include "frames.s"
 .include "drawing.s"
 .include "sprites.s"
+.include "writing.s"

@@ -18,6 +18,7 @@
 .eqv TILE_H 16
 .eqv MENU_X 160
 .eqv MENU_COLOR 0b10010111 
+.eqv BASE_STRING_COLOR 0x0ff
 
 
 # Constantes do player:
