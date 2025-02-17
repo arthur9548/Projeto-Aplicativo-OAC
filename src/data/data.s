@@ -4,10 +4,19 @@
 
 .include "../../sprites/sprites.s"
 .include "map.s"
+.include "player_data.s"
+.include "map_data.s"
+.include "player_data.s"
+.include "dialog_data.s"
 
+#Dados do jogo:
+GAME_STATE: .byte 0
+ENEMIES_ADDRESS: .word 0
+SHOTS_ADDRESS: .word 0
+MAP_ADDRESS: .word 0
 
 #Dados de display:
 FRAME_TO_DRAW: .byte 0 #0 ou 1
 
-#Dados úteis
+#Dados úteis:
 ENDL: .string "\n"
