@@ -43,7 +43,7 @@ lh t0, 0(t1)
 addi t0, t0, 2
 sh t0, 0(t1)
 call GAME_RENDER
-sleep(1)
+sleep(1000)
 j ACTION
 
 END:
