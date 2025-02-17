@@ -88,6 +88,7 @@ DRAW_TILE:
 #a1: offset no X
 #a7: tela (não mudado)
 DRAW_MAP:
+	memo(ra) #função de ordem superior
 	lbu t2, 0(a0) #dimensão no X
 	li t6, TILE_W
 	mul t2, t2, t6 #t2 é o X máximo do mapa
@@ -96,7 +97,6 @@ DRAW_MAP:
 	mul t3, t3, t6 #t3 é o Y máximo do mapa
 	
 	addi a0, a0, 1 #passa para o início dos dados
-	memo(ra) #função de ordem superior
 	li t0, 0 #x
 	sub t0, t0, a1 #offset no X
 	sub t2, t2, a1 #offset no X máximo
@@ -105,35 +105,25 @@ row_loop_draw_map:
 	bge t0, t2, end_row_draw_map
 	li t1, 0 #zera o y
 col_loop_draw_map:
-		bge t1, t3, end_col_draw_map 
-		lb t6, 0(a0) #tile atual
-		
-		#descobrir o tipo do tile
+		bge t1, t3, end_col_draw_map
 		memo(a0) #guardar o endereço do mapa
-		memo (t1)
-		beq t6, zero, if1_cldm #ver se é 0
-		addi t1, zero, 1
-		beq t6, t1, if2_cldm #ver se é 1
-		la a0, water_tile #é 2
-	j c1_cldm
-if1_cldm:
-			la a0, brick_tile #é 0
-	j c1_cldm
-if2_cldm:
-			la a0, metal_tile #é 1
-c1_cldm: 
+		memo(t3)
+		memo(t2)
+		memo(t1)
+		memo(t0) #guardamos o estado atual da função
+		lb a0, 0(a0) #tile atual
+		call GET_TILE_SPRITE #a0 tem o endereço do tile a ser desenhado
+		unmemo(t0)
 		unmemo(t1)
 		mv a1, t0 #x
 		mv a2, t1 #y
-		memo(t0)
 		memo(t1)
-		memo(t2)
-		memo(t3) #precisa-se guardar o estado da função atual
-		call DRAW_TILE #desenhamos o tile
-		unmemo(t3)
-		unmemo(t2)
+		memo(t0)
+		call DRAW_TILE #desenha o tile na tela
+		unmemo(t0)
 		unmemo(t1)
-		unmemo(t0) #recuperamos o estado
+		unmemo(t2)
+		unmemo(t3) #recuperamos o estado
 		unmemo(a0) #recuperamos o endereço do mapa
 		addi t1, t1, TILE_H #Y aumenta
 		addi a0, a0, 1 #andamos para o próximo endereço

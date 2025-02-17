@@ -19,3 +19,11 @@ GET_ENEMY_SPRITE:
 #retorna em a0 o endereço do sprite do projétil cujo endereço é passado em a0
 GET_SHOT_SPRITE:
 	ret
+
+#retorna em a0 o endereço do sprite do tile especificado pelo tipo em a0
+GET_TILE_SPRITE:
+	la t0, MAP_TILE_SPRITES #endereço dos sprites dos tiles da fase atual
+	slli a0, a0, 2 #a0 *= 4 (índice do tile a ser retornado)
+	add t0, t0, a0 #t0 é o endereço do sprite a ser retornado
+	lw a0, 0(t0) #a0 é o endereço do sprite a ser retornado
+	ret
