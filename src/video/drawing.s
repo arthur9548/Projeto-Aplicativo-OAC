@@ -110,12 +110,19 @@ col_loop_draw_map:
 		
 		#descobrir o tipo do tile
 		memo(a0) #guardar o endereço do mapa
+		memo (t1)
 		beq t6, zero, if1_cldm #ver se é 0
-		la a0, grass_tile #é 1
+		addi t1, zero, 1
+		beq t6, t1, if2_cldm #ver se é 1
+		la a0, water_tile #é 2
 	j c1_cldm
 if1_cldm:
-			la a0, water_tile #é 0
+			la a0, brick_tile #é 0
+	j c1_cldm
+if2_cldm:
+			la a0, metal_tile #é 1
 c1_cldm: 
+		unmemo(t1)
 		mv a1, t0 #x
 		mv a2, t1 #y
 		memo(t0)
