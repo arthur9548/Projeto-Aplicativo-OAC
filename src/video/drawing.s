@@ -137,3 +137,14 @@ end_col_draw_map:
 end_row_draw_map:
 	unmemo(ra) #recuperar o endereço de retorno
 	ret
+
+
+#desenha o menu na tela em a7
+DRAW_MENU:
+	memo(ra)
+	li a0, MENU_COLOR
+	li a1, MENU_X
+	call FILL_SCREEN_FROM
+	unmemo(ra)
+	ret
+	#não escreve coisas no menu ainda
