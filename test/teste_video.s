@@ -71,19 +71,19 @@ BORDER_ROUTINE: #testa o desenho nas bordas
 	GET_BUFFER_TO_DRAW(a7)
 	li a1, 0
 	call FILL_SCREEN_FROM
-	li a0, water_tile
+	li a0, brick_tile
 	li a1, -8
 	li a2, 232
 	call DRAW_TILE
-	li a0, grass_tile
+	li a0, metal_tile
 	li a1, 300
 	li a2, 230
 	call DRAW_TILE
-	li a0, water_tile
+	li a0, brick_tile
 	li a1, 312
 	li a2, -8
 	call DRAW_TILE
-	li a0, grass_tile
+	li a0, metal_tile
 	li a1, 16
 	li a2, 16
 	call DRAW_TILE
@@ -112,7 +112,7 @@ col_loop_draw_initial_map:
 		lb t6, 0(a0) #tile atual
 		memo(a0) #guardar o endereço do mapa
 		beq t6, zero, if1_cldim
-		la a0, grass_tile
+		la a0, metal_tile
 	j c1_cldim
 if1_cldim:
 			la a0, water_tile
