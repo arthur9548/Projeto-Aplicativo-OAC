@@ -9,10 +9,10 @@ GAME_RENDER:
 	memo(ra)
 	#primeiro descobre qual é o estado atual do jogo pra saber o que renderizar
 	
-	#se for jogo normal:
+	#se for jogo normal: (tudo isso vai ser uma função)
 	GET_BUFFER_TO_DRAW(a7) #a7 é o frame para desenhar
 	
-	#desenha o menu
+	#desenha o menu (provavelmente vai virar uma função
 	li a0, MENU_COLOR
 	li a1, MENU_X
 	call FILL_SCREEN_FROM
