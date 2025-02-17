@@ -1,12 +1,12 @@
-Definições sobre o projeto.
+# Definições sobre o projeto.
 
-Organização:
+## Organização:
 - Pasta helper: programas para ajudar no design do jogo
 - Pasta sprites: sprites e imagens do jogo
 - Pasta test: pasta para a criação e execução de testes (usando FPGRARS)
 - Pasta src: código fonte do jogo
 
-Sobre o código:
+### Sobre o código:
 
 Organização das pastas em src tem o objetivo de separar ao máximo as funcionalidades do jogo.
 - Pasta data: memória de dados para diferentes partes do programa
@@ -19,14 +19,16 @@ Todas as pastas devem possuir um arquivo pasta.s, que reúne os arquivos da past
 
 O arquivo game.s deve incluir todos os componentes do jogo e controlar a execução
 
-Sobre testes:
+### Sobre testes:
 
 Para testar, crie um arquivo incluindo apenas os módulos necessários para o teste. Normalmente, src/data/data.s, src/util/util.s e src/pasta/pasta.s (de acordo com a pasta do tipo de teste).
 
-Sobre as fases:
+## Design
+
+### Fases:
 - Mapa Wx10 (W variável, provavelmente por volta de 40)
 
-Sobre vídeo:
+### Vídeo:
 - Tiles 16x16 (tela de 20x15 tiles)
 - Menu de 80 pixels, deixando a tela com 320x160 (20x10 tiles)
 - Personagens vistos em pé e alinhados com o chão
