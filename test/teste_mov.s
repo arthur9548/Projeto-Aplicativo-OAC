@@ -83,37 +83,148 @@ PROCESS_MOVEMENT:
 	la t0, PLAYER_VEL_X
 	lb t6, 0(t0)
 	
-	
-	
 	# t4 = y
 	# t5 = x
 	# t6 = vel_x
 	
-	# check for X obstacle (right)
+	li t0, KEY_RIGHT
+	beq t0, a0, right_check
 	
-	mv t0, t5
-	mv t1, t4
-	addi t0, t0, 17
-	# (t0, t1) = (x+17, y)
+	li t0, KEY_LEFT
+	beq t0, a0, left_check
 	
-	srai t0, t0, 4
-	srai t1, t1, 4
-	addi t2, zero, 10
-	mul t2, t2, t0
-	add t2, t2, t1
-	addi t2, t2, 1
-	# t2 -> posicao do tile a direita de cima (t0, t1)
-	la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	#li t0, KEY_JUMP
+	#beq t0, a0, jump_check
 	
-	add t3, t3, t2
-	lb t4, 0(t3)
+	j no_input
 	
-	addi t0, zero, 1
-	beq t4, t0, WALL_DETECTED
+	#jump_check:
+	#	la t0, PLAYER_IS_MID_AIR
+	#	lb t2, 0(t0)
+	#	li t1, PLAYER_NOT_MID_AIR
+	#	beq t2, t1, jump_activate
+	#	jump_activate:
+	#		li t0, PLAYER_VEL_Y
+			
+		
 	
-	j SKIP_HORIZONTAL_DETECTION
-	
-	
+	left_check:
+		
+		addi t6, zero, -6
+		
+		
+		# check for X obstacle (top left)
+		mv t0, t5
+		mv t1, t4
+		addi t0, t0, -1
+		# (t0, t1) = (x-1, y)
+		
+		srai t0, t0, 4
+		srai t1, t1, 4
+		addi t2, zero, 10
+		mul t2, t2, t0
+		add t2, t2, t1
+		addi t2, t2, 1
+		# t2 -> posicao do tile
+		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+		add t3, t3, t2
+		lb t4, 0(t3)
+		
+		addi t0, zero, 1
+		beq t4, t0, WALL_DETECTED
+		
+		#j SKIP_HORIZONTAL_DETECTION
+		
+		la t0, PLAYER_Y
+		lh t4, 0(t0)
+		
+		# check for X obstacle (bot left)
+		
+		mv t0, t5
+		mv t1, t4
+		addi t0, t0, -1
+		addi t1, t1, 15
+		# (t0, t1) = (x-1, y+15)
+		
+		srai t0, t0, 4
+		srai t1, t1, 4
+		addi t2, zero, 10
+		mul t2, t2, t0
+		add t2, t2, t1
+		addi t2, t2, 1
+		
+		
+		# t2 -> posicao do tile
+		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+		add t3, t3, t2
+		lb t4, 0(t3)
+		
+		addi t0, zero, 1
+		beq t4, t0, WALL_DETECTED
+		
+		j SKIP_HORIZONTAL_DETECTION
+		
+		
+	right_check:
+		
+		addi t6, zero, 6
+		
+		# check for X obstacle (top right)
+		mv t0, t5
+		mv t1, t4
+		addi t0, t0, 16
+		# (t0, t1) = (x+17, y)
+		
+		srai t0, t0, 4
+		srai t1, t1, 4
+		addi t2, zero, 10
+		mul t2, t2, t0
+		add t2, t2, t1
+		addi t2, t2, 1
+		# t2 -> posicao do tile a direita de cima (t0, t1)
+		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+		add t3, t3, t2
+		lb t4, 0(t3)
+		
+		addi t0, zero, 1
+		beq t4, t0, WALL_DETECTED
+		
+		#j SKIP_HORIZONTAL_DETECTION
+		
+		la t0, PLAYER_Y
+		lh t4, 0(t0)
+		
+		# check for X obstacle (bot right)
+		
+		mv t0, t5
+		mv t1, t4
+		addi t0, t0, 16
+		addi t1, t1, 15
+		# (t0, t1) = (x+17, y+16)
+		
+		srai t0, t0, 4
+		srai t1, t1, 4
+		addi t2, zero, 10
+		mul t2, t2, t0
+		add t2, t2, t1
+		addi t2, t2, 1
+		
+		
+		# t2 -> posicao do tile a direita de baixo (t0, t1)
+		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+		add t3, t3, t2
+		lb t4, 0(t3)
+		
+		addi t0, zero, 1
+		beq t4, t0, WALL_DETECTED
+		
+		j SKIP_HORIZONTAL_DETECTION
+		
+		
 	WALL_DETECTED:
 		mv t6, zero
 	
@@ -127,16 +238,25 @@ PROCESS_MOVEMENT:
 	la t0, PLAYER_X
 	sh t5, 0(t0)
 	
+	unmemo(ra)
+	ret
+	
+	no_input:
+	mv t6, zero
+	la t0, PLAYER_VEL_X
+	sh t6, 0(t0)
+	
+	
 	
 	unmemo(ra)
 	ret
 
 MAIN:
-	sleep(10)
+	sleep(2)
 	
 	
 	jal GET_INPUT
-	
+	print_int(a0)
 	#mv s0, a0
 	jal PROCESS_MOVEMENT
 	
