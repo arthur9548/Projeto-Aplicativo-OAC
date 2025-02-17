@@ -5,6 +5,9 @@
 .text
 
 MAIN:	#roda o jogo de alguma forma
+	#call GAME_LOGIC
+	#call GAME_RENDER
+	#call GAME_AUDIO
 	exit_system
 
 .include "logic/logic.s"
