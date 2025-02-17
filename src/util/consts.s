@@ -9,3 +9,5 @@
 .eqv MAP_W 20
 .eqv MAP_H 10
 .eqv MAP_SIZE 200
+.eqv MENU_X 160
+.eqv MENU_COLOR 0b10010111 

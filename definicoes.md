@@ -15,7 +15,7 @@ Organização das pastas em src tem o objetivo de separar ao máximo as funciona
 - Pasta logic: programas de cálculo lógico do jogo (movimentação, habilidades, combate, IA oponente)
 - Pasta video: programas para renderização gráfica do jogo
 
-Todas as pastas devem possuir um arquivo pasta.s, que reúne os arquivos da pasta em um único para facilitar o processo de montagem (e também gerar maior abstração)
+Todas as pastas devem possuir um arquivo pasta.s, que reúne os arquivos da pasta em um único e junta as funcionalidades para facilitar o processo de montagem e também gerar maior abstração
 
 O arquivo game.s deve incluir todos os componentes do jogo e controlar a execução
 
