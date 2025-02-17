@@ -19,6 +19,10 @@ Todas as pastas devem possuir um arquivo pasta.s, que reúne os arquivos da past
 
 O arquivo game.s deve incluir todos os componentes do jogo e controlar a execução
 
+### Sobre os dados:
+- map_data.s guarda os mapas em si
+- map_info.s guarda as informações relativas aos mapas/fases
+
 ### Sobre testes:
 
 Para testar, crie um arquivo incluindo apenas os módulos necessários para o teste. Normalmente, src/data/data.s, src/util/util.s e src/pasta/pasta.s (de acordo com a pasta do tipo de teste).
@@ -27,6 +31,8 @@ Para testar, crie um arquivo incluindo apenas os módulos necessários para o te
 
 ### Fases:
 - Mapa Wx10 (W variável, provavelmente por volta de 40)
+- 4 tipos de tile: fundo, bloco, proibido e porta
+- 3 tipos de inimigos: corredor, atirador e chefão
 
 ### Vídeo:
 - Tiles 16x16 (tela de 20x15 tiles)
