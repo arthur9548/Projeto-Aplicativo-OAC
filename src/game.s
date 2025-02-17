@@ -1,5 +1,4 @@
 #arquivo principal do jogo
-
 .include "data/data.s"
 .include "util/util.s"
 .include "../MACROSv24.s"
