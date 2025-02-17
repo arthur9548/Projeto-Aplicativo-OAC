@@ -24,7 +24,7 @@ LOOP:
 	li a1, 160
 	call FILL_SCREEN_FROM
 	call SWAP_FRAMES
-	#sleep(500)
+	sleep(50)
 	addi s0, s0, 1
 	j LOOP
 END:
