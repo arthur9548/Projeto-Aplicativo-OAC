@@ -68,6 +68,7 @@ GAME_RENDER_OVER:
 	
 GAME_RENDER_CONFIG:
 	#mudar ?
+	call SWAP_FRAMES #não muda o frame exibido
 	j RET_GAME_RENDER
 
 .include "frames.s"

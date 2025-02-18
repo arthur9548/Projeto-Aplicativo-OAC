@@ -8,6 +8,7 @@
 MAIN:
 	call GAME_CONTROL
 	call GAME_RENDER
+	call GAME_AUDIO
 	j MAIN
 
 li a0, 0
@@ -49,5 +50,6 @@ exit_loop
 
 
 .include "../src/video/video.s"
+.include "../src/audio/audio.s"	
 .include "../SYSTEMv24.s"
 .include "../src/logic/control.s"

@@ -24,13 +24,21 @@ RET_GAME_AUDIO:
 	ret
 	
 GAME_AUDIO_INIT:
-	la a0, START_SONG
-	call PLAY_AUDIO #toca a música de início
+	la t0, START_SONG
+	la t1, CONFIG_MUSIC
+	sw t0, 0(t1) #música a ser tocada durante a configuração é a de início
 	j RET_GAME_AUDIO
 	
 GAME_AUDIO_ACTION:
 	#carrega música da fase e toca
 	#descobre se algum som aconteceu e toca
+	la t0, PLAYER_ALIVE #ver se o jogador tá vivo
+	lb t0, 0(t0)
+	bnez t0, ret_gaa #não faz nada se estiver vivo
+	la t0, DIE_SONG
+	la t1, CONFIG_MUSIC
+	sw t0, 0(t1) #música a ser tocada durante a configuração é a de morte
+ret_gaa:
 	j RET_GAME_AUDIO
 	
 GAME_AUDIO_OVER:
@@ -39,7 +47,13 @@ GAME_AUDIO_OVER:
 	j RET_GAME_AUDIO
 	
 GAME_AUDIO_CONFIG:
-	#mudar ?
+	la t0, CONFIG_MUSIC
+	lw a0, 0(t0) #música a ser tocada
+	beqz a0, ret_gac #não faz nada se não for tocar música
+	memo(ra)
+	call PLAY_WHOLE_SONG #toca a música durante configuração
+	unmemo(ra)
+ret_gac:
 	j RET_GAME_AUDIO
 
 #toca a próxima nota de uma música (ou reinicia)

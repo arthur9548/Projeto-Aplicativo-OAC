@@ -37,11 +37,11 @@ from_init_game_control:
 	
 from_config_game_control:
 	memo(ra) #chama outra função
-	#configura a fase atual
+	
+	#configura a fase atual (aqui mesmo?)
 	call INIT_MAP #inicializa as informações do mapa atual na memória
 	
-	#próximo estado é o jogo em si (ação)
-	li a0, GAME_STATE_ACTION
+	la a0, GAME_STATE_ACTION #passa para o jogo em si
 	
 	unmemo(ra)
 	j ret_game_control

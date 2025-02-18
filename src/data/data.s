@@ -17,6 +17,9 @@ CUR_MAP_INDEX: .byte 0
 #Dados de display:
 FRAME_TO_DRAW: .byte 0 #0 ou 1
 
+#Dados de áudio:
+CONFIG_MUSIC: .word 0 #música para tocar durante configuração
+
 #Dados úteis:
 ENDL: .string "\n"
 
