@@ -118,6 +118,8 @@ PROCESS_MOVEMENT:
 	addi t1, t1, 1
 	sb t1, 0(t0)
 	
+	li s0, 1
+	
 	j skip_ground_detected
 	
 	GROUND_DETECTED:
@@ -127,6 +129,7 @@ PROCESS_MOVEMENT:
 		sb zero, 0(t0) #PALYER_VEL_Y = 0
 		
 		li t2, 0 # is_grounded
+		li s0, 0
 		
 	skip_ground_detected:
 	
@@ -139,19 +142,19 @@ PROCESS_MOVEMENT:
 		
 	add t4, t4, t3
 	
-	beqz t2, fix_ground_lvl
-	
-	
+	beqz s0, fix_ground_lvl
 	
 	j skip_ground_lvl_fix
 	
 	fix_ground_lvl:
-		srli t4, t4, 2
-		slli t4, t4, 2
+		li s0, 1
+		srli t4, t4, 4
+		slli t4, t4, 4
 	
 	skip_ground_lvl_fix:
 	
 	sh t4, 0(t0)
+	
 	
 	li t0, KEY_RIGHT
 	beq t0, a0, right_check
@@ -162,19 +165,22 @@ PROCESS_MOVEMENT:
 	li t0, KEY_JUMP
 	beq t0, a0, jump_check
 	
+	
+
 	j no_input
 	
 	jump_check:
 		la t0, PLAYER_IS_GROUNDED
 		lb t1, 0(t0)
 		li t2, 1
-		beq t1, t2, jump_activate
+
+		bne t1, t2, jump_skip
 		jump_activate:
 			li t0, PLAYER_VEL_Y
-			addi t1, zero, -500
+			addi t1, zero, -7
 			sb t1, 0(t0)
-			print_int(zero)
-		
+		jump_skip:
+			
 		j no_input
 		
 	
@@ -312,18 +318,47 @@ PROCESS_MOVEMENT:
 	ret
 	
 	no_input:
-	mv t6, zero
-	la t0, PLAYER_VEL_X
-	sb t6, 0(t0)
+	#mv t6, zero
+	#la t0, PLAYER_VEL_X
+	#sb t6, 0(t0)
 	
+	
+	#la t1, PLAYER_VEL_Y
+	#lb t3, 0(t1)
+		
+	#la t0, PLAYER_Y
+	#lh t4, 0(t0)
+	
+	#add t4, t4, t3
+	
+	#beqz s0, skip_fix_fix_ground
+	#srli t4, t4, 2
+	#slli t4, t4, 2
+	
+	#skip_fix_fix_ground:
+	
+	#sh t4, 0(t0)
+	
+		
 	la t0, PLAYER_Y
 	lh t4, 0(t0)
 	
-	la t0, PLAYER_X
-	lh t5, 0(t0)	
+	la t1, PLAYER_VEL_Y
+	lb t3, 0(t1)
+		
+	add t4, t4, t3
 	
+	beqz s0, fix_ground_lvl2
 	
+	j skip_ground_lvl_fix2
 	
+	fix_ground_lvl2:
+		srli t4, t4, 4
+		slli t4, t4, 4
+	
+	skip_ground_lvl_fix2:
+	
+	sh t4, 0(t0)
 	
 	
 	
@@ -331,7 +366,7 @@ PROCESS_MOVEMENT:
 	ret
 
 MAIN:
-	sleep(50)
+	sleep(65)
 	call GAME_RENDER
 	call GAME_CONTROL
 	call GAME_LOGIC
