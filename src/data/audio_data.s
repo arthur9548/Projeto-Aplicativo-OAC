@@ -12,3 +12,7 @@ WIN_SONG: .word 1, 80, 53, 0, MG_MIN_WORD,
 
 #sons: nota, duração, instrumento, volume
 SHOT_SOUND: .word 50, 100, 2, 100
+
+Fingerbib_Track1_Voice5_SIZE: .word 1, 100, 8, 0, MG_MIN_WORD,
+Fingerbib_Track1_Voice5_NOTES: 24,42092,58,232,0,93953,61,232,0,31860,70,232,0,52791,61,1860,
+
