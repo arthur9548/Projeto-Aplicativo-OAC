@@ -5,7 +5,6 @@
 .include "../MACROSv24.s"
 
 .text
-
 MAIN:
 	call GAME_CONTROL
 	call GAME_RENDER

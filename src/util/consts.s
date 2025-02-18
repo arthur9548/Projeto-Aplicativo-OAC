@@ -23,6 +23,8 @@
 .eqv BASE_STRING_COLOR 0x0ff
 .eqv MENU_STRING_COLOR 0x03f
 
+# Constantes de áudio
+.eqv MG_MIN_WORD 0x10000000 #MIN_WORD Mage Embler
 
 # Constantes do player:
 .eqv PLAYER_FACING_LEFT 0

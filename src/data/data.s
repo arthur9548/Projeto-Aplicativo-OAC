@@ -7,6 +7,7 @@
 .include "player_data.s"
 .include "map_data.s"
 .include "dialog_data.s"
+.include "audio_data.s"
 
 #Dados do jogo:
 GAME_STATE: .byte GAME_STATE_INIT

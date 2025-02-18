@@ -82,7 +82,8 @@ over_won_fagm:
 	j ret_fagm
 	
 from_over_game_control:
-	exit_loop #termina o jogo se o jogador venceu
+	j ret_fagm #jogo termina e continua terminado
+	#exit_loop #termina o jogo se o jogador venceu
 
 #inicializa uma fase escolhida no jogo
 #escolha é feita na memória
