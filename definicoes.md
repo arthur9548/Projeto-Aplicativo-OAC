@@ -9,15 +9,15 @@
 ### Sobre o código:
 
 Organização das pastas em src tem o objetivo de separar ao máximo as funcionalidades do jogo.
-- Pasta data: memória de dados para diferentes partes do programa
-- Pasta util: macros e constantes úteis para diferentes partes do programa
+- Pasta util: macros e constantes úteis para diferentes partes do programa (deve ser incluída antes de qualquer arquivo)
+- Pasta data: memória de dados para diferentes partes do programa (deve ser incluída antes dos arquivos de programas)
 - Pasta audio: arquivos para geração de áudio do jogo
 - Pasta logic: programas de cálculo lógico do jogo (movimentação, habilidades, combate, IA oponente)
 - Pasta video: programas para renderização gráfica do jogo
 
 Todas as pastas devem possuir um arquivo pasta.s, que reúne os arquivos da pasta em um único e junta as funcionalidades para facilitar o processo de montagem e também gerar maior abstração
 
-O arquivo game.s deve incluir todos os componentes do jogo e controlar a execução
+O arquivo game.s deve incluir todos os componentes do jogo e controlar a execução.
 
 ### Sobre os dados:
 - map_data.s guarda os mapas em si

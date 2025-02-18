@@ -1,5 +1,9 @@
 # arquivo de áudio do jogo
 
+# faltando:
+# - tocar música da respectiva fase
+# - reproduzir efeitos sonoros que tenham acontecido
+
 GAME_AUDIO:
 	memo(ra) #chamada de outras funções
 	

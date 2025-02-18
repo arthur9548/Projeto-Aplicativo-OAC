@@ -90,8 +90,7 @@ WRITE_END:
 	li a1, 40
 	li a2, 40
 	li a3, BASE_STRING_COLOR
-	li a7, 104
-	ecall
+	call PRINT_STRING
 	
 	la a0, STRING_SCORE
 	li a1, 40
