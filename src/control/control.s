@@ -6,6 +6,7 @@ GAME_CONTROL:
 	lb t0, 0(t1)
 	la t1, GAME_STATE
 	sb t0, 0(t1) #estado atual recebe o estado novo anterior
+	#print_int(t0)
 	
 	li t1, GAME_STATE_INIT
 	beq t0, t1, from_init_game_control
@@ -36,14 +37,10 @@ from_init_game_control:
 	j ret_game_control
 	
 from_config_game_control:
-	memo(ra) #chama outra função
-	
-	#configura a fase atual (aqui mesmo?)
-	call INIT_MAP #inicializa as informações do mapa atual na memória
+	#jogo vai se configurar sozinho
 	
 	la a0, GAME_STATE_ACTION #passa para o jogo em si
 	
-	unmemo(ra)
 	j ret_game_control
 	
 from_action_game_control:
@@ -59,8 +56,10 @@ from_action_game_control:
 	beq t0, t1, won_fagm
 	
 	#se nada relevante aconteceu o jogo continua
+	li a0, GAME_STATE_ACTION
+	
 ret_fagm:
-	ret
+	j ret_game_control
 	
 died_fagm:
 	li a0, GAME_STATE_CONFIG #configurar nova fase
@@ -82,30 +81,8 @@ over_won_fagm:
 	j ret_fagm
 	
 from_over_game_control:
+	li a0, GAME_STATE_OVER
 	j ret_fagm #jogo termina e continua terminado
 	#exit_loop #termina o jogo se o jogador venceu
 
-#inicializa uma fase escolhida no jogo
-#escolha é feita na memória
-INIT_MAP:
-	la t3, CUR_MAP_INDEX #mapa atual
-	lb t3, 0(t3)
-	la t2, MAP_ADDRESS #endereço do mapa atual
-	la t1, MAP_TILE_SPRITES #endereço dos tiles desse mapa
-	
-	li t0, 0
-	beq a0, a0, case0_init_map
-	
-ret_init_map:
-	ret
-	
-case0_init_map:
-	la t0, brick_tile
-	sw t0, 0(t1)
-	la t0, metal_tile
-	sw t0, 4(t1)
-	la t0, water_tile
-	sw t0, 8(t1) #informações de tile
-	la t0, mapa_de_testes
-	sw t0, 0(t2) #endereço do mapa
-	j ret_init_map
+

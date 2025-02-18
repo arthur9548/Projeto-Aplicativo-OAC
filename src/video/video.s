@@ -1,5 +1,9 @@
 # codigo para manipulação geral de vídeo
 
+#faltando:
+# - renderizar projéteis, inimigos e chefe
+# - pra isso precisa arrumar também o sprites.s
+
 GAME_RENDER:
 	memo(ra)
 	#primeiro descobre qual é o estado atual do jogo pra saber o que renderizar

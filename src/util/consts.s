@@ -8,7 +8,7 @@
 .eqv MAP_W 20
 .eqv MAP_H 10
 .eqv MAP_SIZE 200
-.eqv FINAL_MAP_INDEX 3
+.eqv FINAL_MAP_INDEX 0
 
 # Constantes de display:
 .eqv CURRENT_DISPLAY_FRAME_ADDRESS 0xFF200604
