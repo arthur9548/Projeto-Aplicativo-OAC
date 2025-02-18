@@ -14,6 +14,9 @@ INIT_MAP:
 	li t0, 1
 	beq t3, t0, case1_init_map 
 	
+	li t0, 2
+	beq t3, t0, case1_init_map 
+	
 ret_init_map:
 	ret
 	
@@ -33,6 +36,17 @@ case1_init_map:
 	la t0, oak_tile
 	sw t0, 0(t1)
 	la t0, box_tile
+	sw t0, 4(t1)
+	la t0, water_tile
+	sw t0, 8(t1) #informações de tile
+	la t0, mapa_de_testes
+	sw t0, 0(t2) #endereço do mapa
+	j ret_init_map
+	
+case2_init_map:
+	la t0, wood_tile
+	sw t0, 0(t1)
+	la t0, round_tile
 	sw t0, 4(t1)
 	la t0, water_tile
 	sw t0, 8(t1) #informações de tile
