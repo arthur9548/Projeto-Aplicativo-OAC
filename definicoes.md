@@ -29,6 +29,14 @@ Para testar, crie um arquivo incluindo apenas os módulos necessários para o te
 
 ## Design
 
+### Máquina de estados do jogo:
+- INIT: estado de configuração inicial do jogo.
+- CONFIG: estado de configuração de uma fase
+- ACTION: estado para ações do jogador (jogo em si)
+- OVER: fim do jogo com vitória do jogador
+
+Transições são baseadas de acordo com o estado atual e as flags PLAYER_ALIVE (está vivo?) e PLAYER_WIN (ganhou a fase atual?)
+
 ### Fases:
 - Mapa Wx10 (W variável, provavelmente por volta de 40)
 - 4 tipos de tile: fundo, bloco, proibido e porta
