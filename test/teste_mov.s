@@ -87,25 +87,95 @@ PROCESS_MOVEMENT:
 	# t5 = x
 	# t6 = vel_x
 	
+	
+	
+	# check ground
+	
+	# check for Y obstacle (bot left)
+	mv t0, t5
+	mv t1, t4
+	addi t1, t1, 16
+	# (t0, t1) = (x, y+16)
+	srai t0, t0, 4
+	srai t1, t1, 4
+	addi t2, zero, 10
+	mul t2, t2, t0
+	add t2, t2, t1
+	addi t2, t2, 1
+	# t2 -> posicao do tile
+	la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	add t3, t3, t2
+	lb t4, 0(t3)
+		
+	addi t0, zero, 1
+	
+	la t1, PLAYER_IS_GROUNDED
+	li t2, 1
+	beq t4, t0, GROUND_DETECTED
+	sb zero, 0(t1) # PLAYER_IS_GROUNDED = 0
+	la t0, PLAYER_VEL_Y
+	lb t1, 0(t0)
+	addi t1, t1, 1
+	sb t1, 0(t0)
+	
+	j skip_ground_detected
+	
+	GROUND_DETECTED:
+		sb t0, 0(t1) # PLAYER_IS_GROUNDED = 1
+		
+		la t0, PLAYER_VEL_Y
+		sb zero, 0(t0) #PALYER_VEL_Y = 0
+		
+		li t2, 0 # is_grounded
+		
+	skip_ground_detected:
+	
+	
+	la t0, PLAYER_Y
+	lh t4, 0(t0)
+	
+	la t1, PLAYER_VEL_Y
+	lb t3, 0(t1)
+		
+	add t4, t4, t3
+	
+	beqz t2, fix_ground_lvl
+	
+	
+	
+	j skip_ground_lvl_fix
+	
+	fix_ground_lvl:
+		srli t4, t4, 2
+		slli t4, t4, 2
+	
+	skip_ground_lvl_fix:
+	
+	sh t4, 0(t0)
+	
 	li t0, KEY_RIGHT
 	beq t0, a0, right_check
 	
 	li t0, KEY_LEFT
 	beq t0, a0, left_check
 	
-	#li t0, KEY_JUMP
-	#beq t0, a0, jump_check
+	li t0, KEY_JUMP
+	beq t0, a0, jump_check
 	
 	j no_input
 	
-	#jump_check:
-	#	la t0, PLAYER_IS_MID_AIR
-	#	lb t2, 0(t0)
-	#	li t1, PLAYER_NOT_MID_AIR
-	#	beq t2, t1, jump_activate
-	#	jump_activate:
-	#		li t0, PLAYER_VEL_Y
-			
+	jump_check:
+		la t0, PLAYER_IS_GROUNDED
+		lb t1, 0(t0)
+		li t2, 1
+		beq t1, t2, jump_activate
+		jump_activate:
+			li t0, PLAYER_VEL_Y
+			addi t1, zero, -500
+			sb t1, 0(t0)
+			print_int(zero)
+		
+		j no_input
 		
 	
 	left_check:
@@ -244,7 +314,16 @@ PROCESS_MOVEMENT:
 	no_input:
 	mv t6, zero
 	la t0, PLAYER_VEL_X
-	sh t6, 0(t0)
+	sb t6, 0(t0)
+	
+	la t0, PLAYER_Y
+	lh t4, 0(t0)
+	
+	la t0, PLAYER_X
+	lh t5, 0(t0)	
+	
+	
+	
 	
 	
 	
@@ -252,7 +331,7 @@ PROCESS_MOVEMENT:
 	ret
 
 MAIN:
-	sleep(2)
+	sleep(50)
 	call GAME_RENDER
 	call GAME_CONTROL
 	call GAME_LOGIC
@@ -262,7 +341,7 @@ MAIN:
 	bne t0, t1, MAIN
 	
 	jal GET_INPUT
-	print_int(a0)
+
 	mv s0, a0
 	jal PROCESS_MOVEMENT
 	
