@@ -2,11 +2,13 @@
 .eqv GAME_STATE_INIT 0
 .eqv GAME_STATE_ACTION 1
 .eqv GAME_STATE_OVER 2
+.eqv GAME_STATE_CONFIG 3
 
 # Constantes de fase
 .eqv MAP_W 20
 .eqv MAP_H 10
 .eqv MAP_SIZE 200
+.eqv FINAL_MAP_INDEX 3
 
 # Constantes de display:
 .eqv CURRENT_DISPLAY_FRAME_ADDRESS 0xFF200604
@@ -17,10 +19,12 @@
 .eqv TILE_W 16
 .eqv TILE_H 16
 .eqv MENU_X 160
-.eqv MENU_COLOR 0b10010111 
+.eqv MENU_COLOR 0b01001010 
 .eqv BASE_STRING_COLOR 0x0ff
 .eqv MENU_STRING_COLOR 0x03f
 
+# Constantes de áudio
+.eqv MG_MIN_WORD 0x10000000 #MIN_WORD Mage Embler
 
 # Constantes do player:
 .eqv PLAYER_FACING_LEFT 0

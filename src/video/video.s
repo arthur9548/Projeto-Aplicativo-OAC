@@ -18,6 +18,9 @@ GAME_RENDER:
 	li t1, GAME_STATE_OVER #se chegou ao fim do jogo
 	beq t0, t1, GAME_RENDER_OVER
 	
+	li t1, GAME_STATE_CONFIG #se a fase deve ser reiniciada
+	beq t0, t1, GAME_RENDER_CONFIG
+	
 RET_GAME_RENDER:
 	call SWAP_FRAMES
 	unmemo(ra)
@@ -26,15 +29,12 @@ RET_GAME_RENDER:
 GAME_RENDER_INIT:
 	call INIT_FRAMES
 	call WRITE_START
-	call SWAP_FRAMES
 	j RET_GAME_RENDER
 	
 GAME_RENDER_ACTION:
 	#desenha as informações do menu
 	call DRAW_MENU
-	memo(a7)
 	call WRITE_MENU
-	unmemo(a7)
 	
 	memo(s0)
 	la s0, MAP_OFFSET
@@ -65,8 +65,14 @@ GAME_RENDER_OVER:
 	call FILL_SCREEN_FROM
 	call WRITE_END
 	j RET_GAME_RENDER
+	
+GAME_RENDER_CONFIG:
+	#mudar ?
+	call SWAP_FRAMES #não muda o frame exibido
+	j RET_GAME_RENDER
 
 .include "frames.s"
 .include "drawing.s"
 .include "sprites.s"
 .include "writing.s"
+.include "printer.s"
