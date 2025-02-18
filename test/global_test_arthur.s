@@ -6,7 +6,7 @@
 
 .text
 MAIN:
-	sleep(400)
+	#sleep(400)
 	call GAME_CONTROL
 	call GAME_RENDER
 	call GAME_AUDIO
