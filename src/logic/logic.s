@@ -63,4 +63,4 @@ GAME_LOGIC_OVER:
 	
 #incluir aqui os outros arquivos de lógica:
 .include "input.s"
-.include "processer.s"
+.include "processor.s"
