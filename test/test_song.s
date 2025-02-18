@@ -12,6 +12,9 @@
 	la a0, ASPIRA
 	call PLAY_WHOLE_SONG
 
+	la a0, TIRO
+        call PLAY_WHOLE_SONG
+
 	li a7, 10
 	ecall
 .include "../src/audio/audio.s"
