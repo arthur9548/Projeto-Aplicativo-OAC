@@ -1,12 +1,12 @@
 .include "../src/util/util.s"
 .include "../src/data/data.s"
+.include "../MACROSv24.s"
 
 
 .text
-call INIT_FRAMES
 call MAIN
 
-GET_INPUT:
+GET_INPUT_TEST:
 	# arugmentos: nenhum
 	# retorna: a0 (KEY_LEFT, KEY_RIGHT, KEY_JUMP, KEY_ABSORB. KEY_SPECIAL) ou 0 (KEY_NOTHING), caso nenhuma tecla pressionada
 	
@@ -253,49 +253,22 @@ PROCESS_MOVEMENT:
 
 MAIN:
 	sleep(2)
-	
+	call GAME_RENDER
+	call GAME_CONTROL
+	call GAME_LOGIC
+	li t0, GAME_STATE
+	lb t0, 0(t0)
+	li t1, GAME_STATE_ACTION
+	bne t0, t1, MAIN
 	
 	jal GET_INPUT
 	print_int(a0)
-	#mv s0, a0
+	mv s0, a0
 	jal PROCESS_MOVEMENT
 	
-		
-
-	memo(ra)
-	#primeiro descobre qual é o estado atual do jogo pra saber o que renderizar
-	
-	#se for jogo normal: (tudo isso vai ser uma função)
-	GET_BUFFER_TO_DRAW(a7) #a7 é o frame para desenhar
-	
-	#desenha o menu (provavelmente vai virar uma função
-	li a0, MENU_COLOR
-	li a1, MENU_X
-	call FILL_SCREEN_FROM
-	#desenha as outras informações do menu
-	
-	#entende qual é o mapa e o offset
-	la a0, mapa_de_testes
-	li a1, 0
-	call DRAW_MAP
-	
-	#itera pelos personagens, inimigos e projéteis
-	#pra cada um, pega o endereço da imagem e desenha na posição X Y certa
-	# call DRAW_TILE #todo mundo é tile na teoria
-	
-	
-	la a0, player_tile
-	la t0, PLAYER_X
-	lh a1, 0(t0)
-	la t0, PLAYER_Y
-	lh a2, 0(t0)
-	
-	
-	call DRAW_TILE
-	
-	call SWAP_FRAMES
-	unmemo(ra)
-	
 	j MAIN
-	
+
+.include "../src/control/control.s"
+.include "../src/logic/logic.s"
 .include "../src/video/video.s"
+.include "../SYSTEMv24.s"
