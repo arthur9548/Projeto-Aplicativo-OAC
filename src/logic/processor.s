@@ -18,7 +18,7 @@ ret_init_map:
 	ret
 	
 case0_init_map:
-	la t0, brick_tile
+	la t0, oak_tile
 	sw t0, 0(t1)
 	la t0, metal_tile
 	sw t0, 4(t1)
