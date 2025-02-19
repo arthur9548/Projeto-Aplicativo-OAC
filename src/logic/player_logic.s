@@ -313,7 +313,18 @@ PROCESS_MOVEMENT:
 	unmemo(ra)
 	ret
 	
-continue_pm:	
+continue_pm:
+
+	li t0, KEY_ABSORB
+	bne a0, t0, continue_pm2
+	li t1, 0
+	la t0, PLAYER_ALIVE
+	sb t1, 0(t0)
+	unmemo(ra)
+	ret
+	
+continue_pm2:
+
 	li t0, KEY_RIGHT
 	beq t0, a0, right_check
 
