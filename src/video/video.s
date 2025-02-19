@@ -72,8 +72,12 @@ loop_enemies_gra:
 	lb a0, ENEMY_TYPE(t0)
 	addi t0, t0, ENEMY_MEMORY_SIZE #já prepara o próximo inimigo
 	beqz t2, loop_enemies_gra
+	memo(t0)
+	memo(t1)
 	call GET_ENEMY_SPRITE #pega o sprite certo
-	#call DRAW_TILE
+	call DRAW_TILE
+	unmemo(t1)
+	unmemo(t0)
 	j loop_enemies_gra
 end_enemies_gra:
 	

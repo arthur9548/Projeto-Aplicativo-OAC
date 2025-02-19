@@ -139,25 +139,30 @@ row_loop_init_enemies:
 	bge t0, t2, end_row_init_enemies
 	li t1, 0 #zera o y
 col_loop_init_enemies:
-		bge t1, t3, end_col_draw_map
-		memo(a0) #guardar o endereço do mapa
+		bge t1, t3, end_col_init_enemies
 		memo(t0)
 		memo(t1)
 		memo(t2)
 		memo(t3)
+		memo(a0) #guardar o endereço do mapa
 		lb a0, 0(a0) #tile atual
+		print_int(a0)
 		mv a1, t0 #x
 		mv a2, t1 #y
 		li t0, ENEMY_TILE_CODE
 		blt a0, t0, continue_init_enemies #não faz nada se tile não for inimigo
 		sub a0, a0, t0 #código real do inimigo
 		call PUT_ENEMY #coloca o inimigo no jogo
+		unmemo(a0)
+		li t0, BACKGROUND_TILE #substitui por um tile de fundo
+		sb t0, 0(a0)
+		memo(a0)
 continue_init_enemies:
+		unmemo(a0) #recuperamos o endereço do mapa
 		unmemo(t3)
 		unmemo(t2)
 		unmemo(t1)
 		unmemo(t0)
-		unmemo(a0) #recuperamos o endereço do mapa
 		addi t1, t1, TILE_H #Y aumenta
 		addi a0, a0, 1 #andamos para o próximo endereço
 		j col_loop_init_enemies
