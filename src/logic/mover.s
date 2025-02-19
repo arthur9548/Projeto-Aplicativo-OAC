@@ -134,6 +134,9 @@ loop_enemies:
 	unmemo(a1) #recupera as posições antigas
 	
 	beqz a0, continue_enemies #se não colidiu ok
+	#print_int(a0)
+	#print_int(a1)
+	#print_int(a2)
 	sh a1, ENEMY_X(s0)
 	sh a2, ENEMY_Y(s0) #se bateu volta
 continue_enemies:
