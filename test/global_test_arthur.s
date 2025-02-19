@@ -10,7 +10,7 @@ MAIN:
 	call GAME_RENDER
 	call GAME_CONTROL
 	call GAME_LOGIC
-	#call GAME_AUDIO
+	call GAME_AUDIO
 	#li t0, GAME_STATE
 	#lb t0, 0(t0)
 	#li t1, GAME_STATE_ACTION
