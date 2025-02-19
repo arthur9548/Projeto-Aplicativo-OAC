@@ -2,7 +2,7 @@
 
 .include "../src/util/util.s"
 .include "../src/data/data.s"
-.include "../MACROSv24.s"
+#.include "../MACROSv24.s"
 
 .text
 MAIN:
@@ -19,7 +19,7 @@ MAIN:
 	#call process_input
 	#call move_player
 	#call MOVE_ENEMIES
-	li t0, GAME_STATE
+	la t0, GAME_STATE
 	lb t0, 0(t0)
 	li t1, GAME_STATE_ACTION
 	bne t0, t1, MAIN
@@ -100,4 +100,4 @@ move_player:
 .include "../src/audio/audio.s"	
 .include "../src/logic/logic.s"
 .include "../src/control/control.s"
-.include "../SYSTEMv24.s"
+#.include "../SYSTEMv24.s"
