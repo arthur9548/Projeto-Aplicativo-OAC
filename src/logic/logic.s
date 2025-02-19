@@ -40,6 +40,7 @@ GAME_LOGIC_INIT:
 
 GAME_LOGIC_ACTION:
 	#aqui vai ser executada toda a lógica do jogo
+	call ENEMY_IA
 	call PROCESS_INPUT #processar o input
 	call MOVE_OBJECTS #mover personagens e projéteis
 	call PROCESS_RESULTS 
@@ -64,3 +65,5 @@ GAME_LOGIC_OVER:
 #incluir aqui os outros arquivos de lógica:
 .include "input.s"
 .include "processor.s"
+.include "calculator.s"
+.include "enemy_ia.s"
