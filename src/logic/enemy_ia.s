@@ -61,16 +61,36 @@ ENEMY_DECISION:
 	
 	# se o jogador está perto, realizar ação do inimigo
 	
+	#primeiro se virar
+	la t1, PLAYER_X
+	lh t1, 0(t1)
+	la t2, ENEMY_X(s0)
+	sgt t0, t1, t2 #ver se o jogador tá na minha frente, aí devo virar pra direita
+	lb t1, ENEMY_DIR(s0)
+	bne t0, t1, enemy_change_dir #mudar de direção para encarar o personagem
+	
+	#se já está virado certo, ou correr ou atirar 
+	j enemy_do_nothing
+	
 ret_enemy_decision:
 	unmemo(s0)
 	unmemo(ra)
 	ret
 	
-enemy_do_nothing:
+enemy_do_nothing: #não faz literalmente nada
+	sh zero, ENEMY_VEL_X(s0) #fica parado
 	j ret_enemy_decision
 	
 enemy_relax:
+	lw t0, ENEMY_COUNTER(s0)
+	andi t0, t0, 0x010 #pega segundo LSB
+	li t1, 1
+	sub t1, t1, t0 #1 ou -1 dependendo
+	sh t1, ENEMY_VEL_X(s0) #anda de forma alternada
 	j ret_enemy_decision
+	
+enemy_change_dir: #direção certa no s0
+	sb t0, ENEMY_DIR(s0)
 
 boss_action:
 	j ret_enemy_decision
