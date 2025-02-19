@@ -70,6 +70,15 @@ ENEMY_DECISION:
 	bne t0, t1, enemy_change_dir #mudar de direção para encarar o personagem
 	
 	#se já está virado certo, ou correr ou atirar 
+	
+	lb t1, ENEMY_TYPE(s0)
+	
+	li t0, ENEMY_MELEE_TYPE
+	beq t0, t1, enemy_melee_action #ação melee
+	
+	li t0, ENEMY_RANGE_TYPE
+	beq t0, t1, enemy_range_action #ação range
+	
 	j enemy_do_nothing
 	
 ret_enemy_decision:
@@ -90,7 +99,27 @@ enemy_relax:
 	j ret_enemy_decision
 	
 enemy_change_dir: #direção certa no t0
+	sh zero, ENEMY_VEL_X(s0) #fica parado
 	sb t0, ENEMY_DIR(s0)
+	j ret_enemy_decision
+	
+enemy_melee_action:
+	lb t0, ENEMY_DIR(s0)
+	slli t0, t0, 1 # dir *= 2
+	addi t0, t0, -1 # 1 ou -1
+	li t1, VEL_MELEE
+	mul t0, t0, t1 #velocidade direcional
+	sh t0, ENEMY_VEL_X(s0)
+	j ret_enemy_decision
+	
+enemy_range_action:
+	#atirar no personagem se estiver alinhado
+	sh zero, ENEMY_VEL_X(s0) #fica parado
+	la t0, PLAYER_Y
+	lh t0, 0(t0) #y do jogador
+	lh t1, ENEMY_Y(s0)
+	bne t0, t1, enemy_do_nothing #se não tá alinhado só espera
+	#se não cria um novo projétil
 	j ret_enemy_decision
 
 boss_action:

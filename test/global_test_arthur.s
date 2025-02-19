@@ -6,7 +6,7 @@
 
 .text
 MAIN:
-	#sleep(400)
+	sleep(40)
 	call GAME_CONTROL
 	call GAME_LOGIC
 	call GAME_RENDER
@@ -18,6 +18,7 @@ MAIN:
 	
 	call process_input
 	call move_player
+	call move_enemies 
 	j MAIN
 	
 	call GET_INPUT
@@ -80,6 +81,43 @@ move_player:
 	add t1, t1, t0
 	la t0, PLAYER_X
 	sh t1, 0(t0)
+	ret
+	
+move_enemies:
+	memo(s0)
+	la s0, MAP_OFFSET
+	lh s0, 0(s0)
+	la t0, ENEMIES_ADDRESS
+	li t1, ENEMY_LIST_SIZE
+	li t2, ENEMY_MEMORY_SIZE
+	mul t1, t1, t2
+	add t1, t0, t1 #t1 guarda o fim do array de inimigos
+loop_enemies:
+	beq t0, t1, end_enemies
+	lh a1, ENEMY_X(t0)
+	sub a1, a1, s0 #offset
+	lh a2, ENEMY_Y(t0)
+	lb t2, ENEMY_ACTIVE(t0)
+	mv a0, t0
+	addi t0, t0, ENEMY_MEMORY_SIZE #já prepara o próximo inimigo
+	beqz t2, loop_enemies
+	memo(t0)
+	memo(t1)
+	lb t0, ENEMY_DIR(a0)
+	lh t0, ENEMY_VEL_X(a0)
+	lh t1, ENEMY_X(a0)
+	add t0, t0, t1
+	sh t0, ENEMY_X(a0)
+	
+	lh t0, ENEMY_VEL_Y(a0)
+	lh t1, ENEMY_Y(a0)
+	add t0, t0, t1
+	sh t0, ENEMY_Y(a0)
+	unmemo(t1)
+	unmemo(t0)
+	j loop_enemies
+end_enemies:
+	unmemo(s0)
 	ret
 
 .include "../src/video/video.s"
