@@ -9,6 +9,14 @@
 	addi sp, sp, 4
 .end_macro
 
+.macro swap(%a, %b)
+	memo(s11)
+	mv s11, %a
+	mv %a, %b
+	mv %b, s11
+	unmemo(s11)
+.end_macro
+
 #sistema
 .macro exit_system() #sai do programa e volta para o SO
 	li a7, 10
