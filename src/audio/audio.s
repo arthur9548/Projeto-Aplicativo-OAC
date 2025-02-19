@@ -35,6 +35,8 @@ GAME_AUDIO_INIT:
 	
 GAME_AUDIO_ACTION:
 	#carrega música da fase e toca
+	la a0, FASE_SONG
+	call PLAY_AUDIO
 	#descobre se algum som aconteceu e toca
 	la t0, PLAYER_ALIVE #ver se o jogador tá vivo
 	lb t0, 0(t0)
