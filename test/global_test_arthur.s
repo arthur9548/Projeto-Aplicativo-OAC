@@ -6,7 +6,7 @@
 
 .text
 MAIN:
-	sleep(40)
+	sleep(35)
 	call GAME_RENDER
 	call GAME_CONTROL
 	call GAME_LOGIC
