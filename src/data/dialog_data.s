@@ -1,10 +1,10 @@
 # dados para escrita na tela
 
-GAME_NAME: .string "Placeholder for game name"
+GAME_NAME: .string "Projeto Aplicativo - OAC"
 STRING_CONTROLS: .string "Controls:"
-STRING_WASD: .string "Use WASD to move"
-STRING_ABSORB: .string "Q absorbs enemy/projectile"
-STRING_POWER: .string "E uses absorbed ability"
+STRING_WASD: .string "A: jump, D: right, W: jump"
+STRING_ABSORB: .string "E forfeits level"
+STRING_POWER: .string "F is cheat key"
 STRING_SOON: .string "The game will start soon!"
 
 STRING_WIN: .string "Congratulations! You win!"
