@@ -73,7 +73,7 @@ CHECK_CURRENT_TILE:
 	add t2, t2, t1
 	addi t2, t2, 1
 	# t2 -> posicao do tile
-	la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	la t3, mapa_fase_0 #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	add t3, t3, t2
 	lb t4, 0(t3)
 	li t2, CLOSED_DOOR_TILE
@@ -271,7 +271,7 @@ PROCESS_MOVEMENT:
 		add t2, t2, t1
 		addi t2, t2, 1
 		# t2 -> posicao do tile (t0, t1)
-		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		la t3, mapa_fase_0 #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		add t3, t3, t2
 		lb t4, 0(t3)
 		addi t0, zero, 1
@@ -297,7 +297,7 @@ PROCESS_MOVEMENT:
 		add t2, t2, t1
 		addi t2, t2, 1
 		# t2 -> posicao do tile
-		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		la t3, mapa_fase_0 #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		add t3, t3, t2
 		lb t4, 0(t3)
 		addi t0, zero, 1
@@ -334,7 +334,7 @@ PROCESS_MOVEMENT:
 		add t2, t2, t1
 		addi t2, t2, 1
 		# t2 -> posicao do tile (t0, t1)
-		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		la t3, mapa_fase_0 #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		add t3, t3, t2
 		lb t4, 0(t3)
 		addi t0, zero, 1
@@ -360,7 +360,7 @@ PROCESS_MOVEMENT:
 		add t2, t2, t1
 		addi t2, t2, 1
 		# t2 -> posicao do tile
-		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		la t3, mapa_fase_0 #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		add t3, t3, t2
 		lb t4, 0(t3)
 		addi t0, zero, 1
@@ -396,7 +396,7 @@ PROCESS_MOVEMENT:
 		add t2, t2, t1
 		addi t2, t2, 1
 		# t2 -> posicao do tile
-		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		la t3, mapa_fase_0 #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		add t3, t3, t2
 		lb t4, 0(t3)
 		li t2, 1
@@ -421,7 +421,7 @@ PROCESS_MOVEMENT:
 		add t2, t2, t1
 		addi t2, t2, 1
 		# t2 -> posicao do tile
-		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		la t3, mapa_fase_0 #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		add t3, t3, t2
 		lb t4, 0(t3)
 		li t2, 1
@@ -475,7 +475,7 @@ PROCESS_MOVEMENT:
 		add t2, t2, t1
 		addi t2, t2, 1
 		# t2 -> posicao do tile
-		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		la t3, mapa_fase_0 #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		add t3, t3, t2
 		lb t4, 0(t3)
 		li t2, 1
@@ -501,7 +501,7 @@ PROCESS_MOVEMENT:
 		add t2, t2, t1
 		addi t2, t2, 1
 		# t2 -> posicao do tile
-		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		la t3, mapa_fase_0 #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		add t3, t3, t2
 		lb t4, 0(t3)
 		li t2, 1
