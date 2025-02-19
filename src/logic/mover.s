@@ -58,3 +58,47 @@ no_collision:
 has_collision:
 	li a0, 1
 	j ret_collision
+	
+MOVE_ENEMIES:
+	memo(ra)
+	memo(s0)
+	memo(s1)
+	la s0, ENEMIES_ADDRESS
+	li s1, ENEMY_LIST_SIZE
+	li t2, ENEMY_MEMORY_SIZE
+	mul s1, s1, t2
+	add s1, s0, s1 #t1 guarda o fim do array de inimigos
+loop_enemies:
+	beq s0, s1, end_enemies
+	lb t2, ENEMY_ACTIVE(s0)
+	beqz t2, continue_enemies # se não estiver ativo continua
+	
+	lh t0, ENEMY_VEL_X(s0)
+	lh t2, ENEMY_X(s0)
+	memo(t2) #guarda a posição antiga
+	add t0, t0, t2
+	sh t0, ENEMY_X(s0)
+	
+	lh t1, ENEMY_VEL_Y(s0)
+	lh t3, ENEMY_Y(s0)
+	memo(t3) #guarda a posição antiga
+	add t1, t1, t3
+	sh t1, ENEMY_Y(s0)
+	
+	mv a1, t0
+	mv a2, t1
+	call COLLISION_MAP
+	unmemo(a2)
+	unmemo(a1) #recupera as posições antigas
+	
+	beqz a0, continue_enemies #se não colidiu ok
+	sh a1, ENEMY_X(s0)
+	sh a2, ENEMY_Y(s0) #se bateu volta
+continue_enemies:
+	addi s0, s0, ENEMY_MEMORY_SIZE #já prepara o próximo inimigo
+	j loop_enemies
+end_enemies:
+	unmemo(s1)
+	unmemo(s0)
+	unmemo(ra)
+	ret

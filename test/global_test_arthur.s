@@ -18,7 +18,7 @@ MAIN:
 	
 	call process_input
 	call move_player
-	call move_enemies 
+	call MOVE_ENEMIES
 	j MAIN
 	
 	call GET_INPUT
@@ -81,44 +81,6 @@ move_player:
 	add t1, t1, t0
 	la t0, PLAYER_X
 	sh t1, 0(t0)
-	ret
-	
-move_enemies:
-	memo(ra)
-	la t0, ENEMIES_ADDRESS
-	li t1, ENEMY_LIST_SIZE
-	li t2, ENEMY_MEMORY_SIZE
-	mul t1, t1, t2
-	add t1, t0, t1 #t1 guarda o fim do array de inimigos
-loop_enemies:
-	beq t0, t1, end_enemies
-	lb t2, ENEMY_ACTIVE(t0)
-	mv a0, t0
-	addi t0, t0, ENEMY_MEMORY_SIZE #já prepara o próximo inimigo
-	beqz t2, loop_enemies
-	memo(t0)
-	memo(t1)
-	lh t0, ENEMY_VEL_X(a0)
-	lh t2, ENEMY_X(a0)
-	add t0, t0, t2
-	sh t0, ENEMY_X(a0)
-	
-	lh t1, ENEMY_VEL_Y(a0)
-	lh t3, ENEMY_Y(a0)
-	add t1, t1, t3
-	sh t1, ENEMY_Y(a0)
-	
-	mv a1, t0
-	mv a2, t1
-	call COLLISION_MAP
-	unmemo(t1)
-	unmemo(t0)
-	beqz a0, loop_enemies
-	#print_int(a1)
-	#print_int(a2)
-	j loop_enemies
-end_enemies:
-	unmemo(ra)
 	ret
 
 .include "../src/video/video.s"
