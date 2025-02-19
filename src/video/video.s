@@ -58,7 +58,26 @@ GAME_RENDER_ACTION:
 	call GET_PLAYER_SPRITE #retorna em a0 o sprite correto
 	call DRAW_TILE
 	
-	#agora deve loopar pelos inimigos e projéteis fazendo a mesma coisa
+	la t0, ENEMIES_ADDRESS
+	li t1, ENEMY_LIST_SIZE
+	li t2, ENEMY_MEMORY_SIZE
+	mul t1, t1, t2
+	add t1, t0, t1 #t1 guarda o fim do array de inimigos
+loop_enemies_gra:
+	beq t0, t1, end_enemies_gra
+	lh a1, ENEMY_X(t0)
+	sub a1, a1, s0 #offset
+	lh a2, ENEMY_Y(t0)
+	lb t2, ENEMY_ACTIVE(t0)
+	lb a0, ENEMY_TYPE(t0)
+	addi t0, t0, ENEMY_MEMORY_SIZE #já prepara o próximo inimigo
+	beqz t2, loop_enemies_gra
+	call GET_ENEMY_SPRITE #pega o sprite certo
+	#call DRAW_TILE
+	j loop_enemies_gra
+end_enemies_gra:
+	
+	#agora deve loopar pelos projéteis fazendo a mesma coisa
 	
 	#por ultimo vê o boss
 	

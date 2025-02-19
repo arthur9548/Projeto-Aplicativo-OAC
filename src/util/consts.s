@@ -9,6 +9,14 @@
 .eqv MAP_H 10
 .eqv MAP_SIZE 200
 .eqv FINAL_MAP_INDEX 2
+.eqv BACKGROUND_TILE 0
+.eqv BLOCK_TILE 1
+.eqv WATER_TILE 2
+.eqv CLOSED_DOOR_TILE 3
+.eqv OPEN_DOOR_TILE 4
+.eqv ENEMY_MELEE_TILE 10
+.eqv ENEMY_RANGE_TILE 11
+.eqv ENEMY_TILE_CODE 10
 
 # Constantes de display:
 .eqv CURRENT_DISPLAY_FRAME_ADDRESS 0xFF200604
@@ -29,7 +37,7 @@
 .eqv MG_MIN_WORD 0x10000000 #MIN_WORD Mage Embler
 
 # Constantes dos inimigos
-.eqv ENEMY_LIST_SIZE
+.eqv ENEMY_LIST_SIZE 50
 .eqv ENEMY_MEMORY_SIZE 20
 .eqv ENEMY_X 0
 .eqv ENEMY_Y 2
@@ -41,6 +49,8 @@
 .eqv ENEMY_ACTIVE 11
 .eqv ENEMY_COUNTER 12
 .eqv ENEMY_EXTRA 16
+.eqv BOSS_CODE 5
+.eqv BOSS_HP 5
 
 
 # Constantes do player:
