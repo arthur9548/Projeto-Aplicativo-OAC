@@ -39,16 +39,16 @@
 # Constantes dos inimigos
 .eqv ENEMY_LIST_SIZE 50
 .eqv ENEMY_MEMORY_SIZE 20
-.eqv ENEMY_X 0
-.eqv ENEMY_Y 2
-.eqv ENEMY_VEL_X 4
-.eqv ENEMY_VEL_Y 6
-.eqv ENEMY_TYPE 8
-.eqv ENEMY_HP 9
-.eqv ENEMY_DIR 10
-.eqv ENEMY_ACTIVE 11
-.eqv ENEMY_COUNTER 12
-.eqv ENEMY_EXTRA 16
+.eqv ENEMY_X 0 # h
+.eqv ENEMY_Y 2 # h
+.eqv ENEMY_VEL_X 4 # h
+.eqv ENEMY_VEL_Y 6 # h
+.eqv ENEMY_TYPE 8 # b
+.eqv ENEMY_HP 9 # b
+.eqv ENEMY_DIR 10 # b
+.eqv ENEMY_ACTIVE 11 # b
+.eqv ENEMY_COUNTER 12 # w
+.eqv ENEMY_EXTRA 16 # w
 .eqv BOSS_CODE 5
 .eqv BOSS_HP 5
 
