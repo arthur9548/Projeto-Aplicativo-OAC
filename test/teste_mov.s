@@ -7,6 +7,52 @@
 call MAIN
 
 
+CHECK_FOR_ENEMY_DAMAGE:
+	memo(ra)
+	la t0, ENEMIES_ADDRESS      
+	li t2, ENEMY_LIST_SIZE      
+	li t3, ENEMY_MEMORY_SIZE  
+	mul t2, t2, t3         
+	add t2, t0, t2        
+
+	la t4, PLAYER_X    
+	lh t5, 0(t4)          
+	addi t5, t5, 8   
+	
+	la t4, PLAYER_Y   
+	lh t6, 0(t4)    
+
+	mv t4, t0          
+
+	loop_enemy_dmg_check:
+	
+	beq t4, t2, done_enemy_dmg_check       
+
+	lb a7, ENEMY_ACTIVE(t4)         
+	beqz a7, next_enemy
+
+	lh a7, ENEMY_X(t4)   
+	addi t1, a7, 16 
+
+	#check if PLAYER_X >= ENEMY_X
+	blt t5, a7, next_enemy       
+	
+	#check if PLAYER_X <= ENEMY_X + 16
+	bgt t5, t1, next_enemy     
+
+	lh t1, ENEMY_Y(t4)
+	bne t1, t6, next_enemy
+	
+	print_int(zero) # CAUSAR DANO AQUI
+
+	next_enemy:
+	add t4, t4, t3
+	j loop_enemy_dmg_check
+
+	done_enemy_dmg_check:
+	unmemo(ra)
+	ret
+
 
 CHECK_CURRENT_TILE:
 	la t0, PLAYER_Y
@@ -495,6 +541,7 @@ MAIN:
 
 	mv s0, a0
 	jal PROCESS_MOVEMENT
+	jal CHECK_FOR_ENEMY_DAMAGE
 	
 	j MAIN
 
