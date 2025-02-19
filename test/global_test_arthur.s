@@ -8,9 +8,9 @@
 MAIN:
 	#sleep(400)
 	call GAME_CONTROL
+	call GAME_LOGIC
 	call GAME_RENDER
 	#call GAME_AUDIO
-	call GAME_LOGIC
 	li t0, GAME_STATE
 	lb t0, 0(t0)
 	li t1, GAME_STATE_ACTION

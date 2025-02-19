@@ -69,7 +69,7 @@ loop_enemies_gra:
 	sub a1, a1, s0 #offset
 	lh a2, ENEMY_Y(t0)
 	lb t2, ENEMY_ACTIVE(t0)
-	lb a0, ENEMY_TYPE(t0)
+	mv a0, t0
 	addi t0, t0, ENEMY_MEMORY_SIZE #já prepara o próximo inimigo
 	beqz t2, loop_enemies_gra
 	memo(t0)

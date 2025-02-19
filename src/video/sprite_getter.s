@@ -13,7 +13,15 @@ GET_PLAYER_SPRITE:
 	
 #retorna em a0 o endereço do sprite do inimigo cujo endereço é passado em a0
 GET_ENEMY_SPRITE:
+	lb t0, ENEMY_DIR(a0)
+	li t1, 0
+	beq t0, t1, left_ges
+	j right_ges
+left_ges:
 	la a0, spider_tile_left
+	ret
+right_ges:
+	la a0, spider_tile_right
 	ret
 	#depende da orientação e tipo de inimigo
 	

@@ -64,8 +64,8 @@ ENEMY_DECISION:
 	#primeiro se virar
 	la t1, PLAYER_X
 	lh t1, 0(t1)
-	la t2, ENEMY_X(s0)
-	sgt t0, t1, t2 #ver se o jogador tá na minha frente, aí devo virar pra direita
+	lh t2, ENEMY_X(s0)
+	slt t0, t2, t1 #ver se o jogador tá na minha frente, aí devo virar pra direita
 	lb t1, ENEMY_DIR(s0)
 	bne t0, t1, enemy_change_dir #mudar de direção para encarar o personagem
 	
@@ -89,8 +89,9 @@ enemy_relax:
 	sh t1, ENEMY_VEL_X(s0) #anda de forma alternada
 	j ret_enemy_decision
 	
-enemy_change_dir: #direção certa no s0
+enemy_change_dir: #direção certa no t0
 	sb t0, ENEMY_DIR(s0)
+	j ret_enemy_decision
 
 boss_action:
 	j ret_enemy_decision
