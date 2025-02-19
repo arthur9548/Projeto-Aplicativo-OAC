@@ -10,7 +10,6 @@ GET_PLAYER_SPRITE:
 	li t1, PLAYER_STATE_ENEMY_MELEE
 	beq t1, a0, PS_MELEE
 	
-	
         lb a0, PLAYER_FACING
         li t1, PLAYER_FACING_LEFT
         beq a0, t1, SET_LEFT
@@ -18,8 +17,8 @@ GET_PLAYER_SPRITE:
         li t1, PLAYER_FACING_RIGHT
         beq a0, t1, SET_RIGHT
         
-	la a0, test_tile #teste
-	ret
+	#la a0, test_tile #teste
+	#ret
 	
 	#sprite depende de:
 	#inimigo absorvido (3 tipos)

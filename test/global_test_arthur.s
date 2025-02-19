@@ -6,19 +6,32 @@
 
 .text
 MAIN:
-	#sleep(400)
+	sleep(40)
+	call GAME_RENDER
 	call GAME_CONTROL
 	call GAME_LOGIC
-	call GAME_RENDER
 	#call GAME_AUDIO
+	#li t0, GAME_STATE
+	#lb t0, 0(t0)
+	#li t1, GAME_STATE_ACTION
+	#bne t0, t1, MAIN
+	
+	#call process_input
+	#call move_player
+	#call MOVE_ENEMIES
 	li t0, GAME_STATE
 	lb t0, 0(t0)
 	li t1, GAME_STATE_ACTION
 	bne t0, t1, MAIN
 	
-	#call process_input
-	#call move_player
-	#call MOVE_ENEMIES
+	jal CHECK_CURRENT_TILE
+	
+	jal GET_INPUT_TEST
+
+	mv s0, a0
+	jal PROCESS_MOVEMENT
+	jal CHECK_FOR_ENEMY_DAMAGE
+	
 	j MAIN
 	
 	call GET_INPUT

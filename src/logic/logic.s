@@ -43,7 +43,7 @@ GAME_LOGIC_ACTION:
 	call ENEMY_IA
 	call MOVE_ENEMIES
 	#call GET_INPUT #processar o input
-	call PLAYER_ACTION #recebe o input
+	#call PLAYER_ACTION #recebe o input
 	#call MOVE_OBJECTS #mover personagens e projéteis
 	#call PROCESS_RESULTS 
 	#descobrir o que aconteceu nessa iteração (jogador morreu, ganhou...)

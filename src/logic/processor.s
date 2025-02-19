@@ -38,6 +38,7 @@ case0_init_map:
 	la t0, mapa_fase_0
 	sw t0, 0(t2) #endereço do mapa
 	j ret_init_map
+	
 		
 case1_init_map:
 	la t0, oak_tile
@@ -170,9 +171,9 @@ end_row_init_enemies:
 	ret
 	
 #move objetos no mapa de acordo, e calcula MAP_OFFSET
-MOVE_OBJECTS:
-	ret
+#MOVE_OBJECTS:
+#	ret
 	
 #entende o que aconteceu na fase e atualiza flags: PLAYER_ALIVE, PLAYER_WIN e talvez flags de som
-PROCESS_RESULTS:
-	ret
+#PROCESS_RESULTS:
+#	ret
