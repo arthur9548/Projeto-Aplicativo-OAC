@@ -20,9 +20,6 @@ INIT_MAP:
 ret_init_map: #t0 é o endereço do mapa
 	memo(ra)
 	mv a0, t0
-	memo(a0)
-	call CLEAR_ENEMIES
-	unmemo(a0)
 	call INIT_ENEMIES #inicializa os inimigos no mapa
 	unmemo(ra)
 	ret
@@ -125,6 +122,7 @@ found_put_enemy: #inicilizar inimigo
 #inicializa os inimigos no mapa passado em a0
 INIT_ENEMIES:
 	memo(ra)
+	call CLEAR_ENEMIES
 	lbu t2, 0(a0) #dimensão no X
 	li t6, TILE_W
 	mul t2, t2, t6 #t2 é o X máximo do mapa
@@ -146,7 +144,6 @@ col_loop_init_enemies:
 		memo(t3)
 		memo(a0) #guardar o endereço do mapa
 		lb a0, 0(a0) #tile atual
-		print_int(a0)
 		mv a1, t0 #x
 		mv a2, t1 #y
 		li t0, ENEMY_TILE_CODE
