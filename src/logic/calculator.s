@@ -29,6 +29,10 @@ RAND_INT:
    
 #vê se um ponto (a1, a2) tá dentro do tile a3, a4
 INSIDE_TILE:
+	#print_int(a1)
+	#print_int(a2)
+	#print_int(a3)
+	#print_int(a4)
 	addi a5, a3, TILE_W
 	addi a5, a5, -1
 	addi a6, a4, TILE_H 
@@ -37,7 +41,7 @@ INSIDE_TILE:
 	sub t0, a1, a3
 	bltz t0, not_inside_tile
 	
-	sub t0, a5, a3
+	sub t0, a5, a1
 	bltz t0, not_inside_tile
 	
 	sub t0, a2, a4
@@ -59,7 +63,6 @@ not_inside_tile:
 #posições a1, a2, a3 e a4
 TILE_INTERSECT:
 	memo(ra)
-	memo(a1)
 	call INSIDE_TILE
 	bnez a0, has_intersection
 	addi a1, a1, TILE_W
@@ -70,7 +73,9 @@ TILE_INTERSECT:
 	addi a2, a2, -1
 	call INSIDE_TILE
 	bnez a0, has_intersection
-	unmemo(a1)
+	li a2, TILE_W
+	sub a1, a1, s2
+	addi a1, a1, 1
 	call INSIDE_TILE
 	bnez a0, has_intersection
 ret_tile_intersect:
