@@ -12,8 +12,8 @@
 .eqv BACKGROUND_TILE 0
 .eqv BLOCK_TILE 1
 .eqv WATER_TILE 2
-.eqv CLOSED_DOOR_TILE 3
-.eqv OPEN_DOOR_TILE 4
+.eqv CLOSED_DOOR_TILE 4
+.eqv OPEN_DOOR_TILE 3
 .eqv ENEMY_TILE_CODE 10
 
 # Constantes de display:

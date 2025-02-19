@@ -16,9 +16,9 @@ MAIN:
 	li t1, GAME_STATE_ACTION
 	bne t0, t1, MAIN
 	
-	call process_input
-	call move_player
-	call MOVE_ENEMIES
+	#call process_input
+	#call move_player
+	#call MOVE_ENEMIES
 	j MAIN
 	
 	call GET_INPUT

@@ -41,9 +41,11 @@ GAME_LOGIC_INIT:
 GAME_LOGIC_ACTION:
 	#aqui vai ser executada toda a lógica do jogo
 	call ENEMY_IA
-	call PROCESS_INPUT #processar o input
-	call MOVE_OBJECTS #mover personagens e projéteis
-	call PROCESS_RESULTS 
+	call MOVE_ENEMIES
+	#call GET_INPUT #processar o input
+	call PLAYER_ACTION #recebe o input
+	#call MOVE_OBJECTS #mover personagens e projéteis
+	#call PROCESS_RESULTS 
 	#descobrir o que aconteceu nessa iteração (jogador morreu, ganhou...)
 	#e tomar decisões de acordo (reviver, somar no score...)
 	j RET_GAME_LOGIC
@@ -68,3 +70,4 @@ GAME_LOGIC_OVER:
 .include "calculator.s"
 .include "enemy_ia.s"
 .include "mover.s"
+.include "player_logic.s"

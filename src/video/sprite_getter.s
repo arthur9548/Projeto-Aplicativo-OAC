@@ -90,7 +90,7 @@ SET_RIGHT_R:
         la a0, spider_kurby_right
         j FIM_RENDER_PLAYER
 JUMP_PLAYER_RIGHT_R:
-        la a0, a0, spider_kurby_jumping_right
+        la a0, spider_kurby_jumping_right
         j FIM_RENDER_PLAYER
             
 PS_MELEE:
@@ -108,7 +108,7 @@ SET_LEFT_M:
         la a0, spider_fly_left
         j FIM_RENDER_PLAYER
 JUMP_PLAYER_LEFT_M:
-        la a0, a0, fly_kurby_jumping_left
+        la a0, fly_kurby_jumping_left
         j FIM_RENDER_PLAYER
 SET_RIGHT_M:
         lb a0, PLAYER_IS_GROUNDED
@@ -118,7 +118,7 @@ SET_RIGHT_M:
         j FIM_RENDER_PLAYER
 
 JUMP_PLAYER_RIGHT_M:
-        la a0, a0, fly_kurby_jumping_right
+        la a0, fly_kurby_jumping_right
         j FIM_RENDER_PLAYER
 FIM_RENDER_PLAYER:          ret
 #retorna em a0 o endereço do sprite do inimigo cujo endereço é passado em a0
