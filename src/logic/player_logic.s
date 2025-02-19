@@ -1,228 +1,3 @@
-.include "../src/util/util.s"
-.include "../src/data/data.s"
-.include "../MACROSv24.s"
-
-
-.text
-call MAIN
-
-CHECK_FOR_ENEMY_ABSORPTION:
-	memo(ra)
-	la t4, PLAYER_FACING
-	lb t5, 0(t4)
-	
-	la t4, PLAYER_X
-	lh t6, 0(t4)    
-	
-
-	mv t3, t6
-	addi t2, t6, 48
-	
-	li a7, PLAYER_FACING_LEFT
-	beq t5, a7, set_left_range
-	
-	j start_scan      
-	
-	set_left_range:
-	addi t3, t6, -32                 
-	mv t2, t6                        
-	
-	start_scan:
-	
-	la t0, ENEMIES_ADDRESS
-	li t1, ENEMY_LIST_SIZE
-	li t4, ENEMY_MEMORY_SIZE
-	mul t1, t1, t4
-	add t1, t0, t1
-		
-	la t5, PLAYER_Y
-	lh t6, 0(t5)
-	
-	mv t5, t0                       
-	
-	loop_enemy_abs:
-	beq t5, t1, done_enemy_abs
-	
-	lb a7, ENEMY_ACTIVE(t5)
-	beqz a7, next_enemy_abs
-	
-	lh a7, ENEMY_X(t5)
-	
-	
-	
-	#Check if ENEMY_X is within range
-	blt a7, t3, next_enemy_abs
-	bgt a7, t2, next_enemy_abs
-	
-	lh t4, ENEMY_Y(t5)
-	bne t4, t6, next_enemy_abs       
-	
-	
-	# ENEMY FOUND AT ABSORPTION RANGE
-	
-	sb zero, ENEMY_ACTIVE(t5)
-	# aqui tambem  trocaria a flag PLYAER_STATE como novo inimigo absorvido
-	
-	
-	next_enemy_abs:
-		
-	add t5, t5, t4
-	j loop_enemy_abs
-	
-	done_enemy_abs:
-	    # Exit or continue execution
-	
-	
-	unmemo(ra)
-	ret
-
-CHECK_FOR_ENEMY_DAMAGE:
-	memo(ra)
-	la t0, ENEMIES_ADDRESS      
-	li t2, ENEMY_LIST_SIZE      
-	li t3, ENEMY_MEMORY_SIZE  
-	mul t2, t2, t3         
-	add t2, t0, t2        
-
-	la t4, PLAYER_X    
-	lh t5, 0(t4)          
-	addi t5, t5, 8   
-	
-	la t4, PLAYER_Y   
-	lh t6, 0(t4)    
-
-	mv t4, t0          
-
-	loop_enemy_dmg_check:
-	
-	beq t4, t2, done_enemy_dmg_check       
-
-	lb a7, ENEMY_ACTIVE(t4)         
-	beqz a7, next_enemy
-
-	lh a7, ENEMY_X(t4)   
-	addi t1, a7, 16 
-
-	#check if PLAYER_X >= ENEMY_X
-	blt t5, a7, next_enemy       
-	
-	#check if PLAYER_X <= ENEMY_X + 16
-	bgt t5, t1, next_enemy     
-
-	lh t1, ENEMY_Y(t4)
-	bne t1, t6, next_enemy
-	
-	print_int(zero) # CAUSAR DANO AQUI
-
-	next_enemy:
-	add t4, t4, t3
-	j loop_enemy_dmg_check
-
-	done_enemy_dmg_check:
-	unmemo(ra)
-	ret
-
-
-CHECK_CURRENT_TILE:
-	la t0, PLAYER_Y
-	lh t4, 0(t0)
-	la t0, PLAYER_X
-	lh t5, 0(t0)
-		
-	# check for tile (middle)
-	mv t0, t5
-	mv t1, t4
-	addi t0, t0, 8
-	addi t1, t1, 8
-	# (t0, t1) = (x+8, y+8)
-	srai t0, t0, 4
-	srai t1, t1, 4
-	addi t2, zero, 10
-	mul t2, t2, t0
-	add t2, t2, t1
-	addi t2, t2, 1
-	# t2 -> posicao do tile
-	la t3, MAP_ADDRESS
-	lw t3, 0(t3)
-	add t3, t3, t2
-	lb t4, 0(t3)
-	li t2, CLOSED_DOOR_TILE
-	
-	bne t4, t2, SKIP_DOOR_WIN
-	
-	la t0, PLAYER_WON
-	li t1, 1
-	sb t1, 0(t0)
-	
-	SKIP_DOOR_WIN:
-
-	ret
-
-GET_INPUT_TEST:
-	# arugmentos: nenhum
-	# retorna: a0 (KEY_LEFT, KEY_RIGHT, KEY_JUMP, KEY_ABSORB. KEY_SPECIAL) ou 0 (KEY_NOTHING), caso nenhuma tecla pressionada
-	
-	memo(ra)
-	li t1, KBD_CONTROL		      		# carrega o endereco de controle do KDMMIO
- 	lw t0, 0(t1)			          	# Le bit de Controle Teclado
-	andi t0, t0, 0x0001		      		# mascara o bit menos significativo
-	beq t0, zero, ret_kbd_input	    		# não tem tecla pressionada entao retorna
-	lw t0, 4(t1)
-	#mv a0, t0
-	
-	get_dir:
-		li t2, 'a'
-		bne t0, t2, not_a_key
-		li a0, KEY_LEFT
-		
-		unmemo(ra)
-		ret
-		
-	not_a_key:
-		li t2, 'd'
-		bne t0, t2, not_d_key
-		li a0, KEY_RIGHT
-		
-		unmemo(ra)
-		ret
-		
-	not_d_key:
-		li t2, 'w'
-		bne t0, t2, not_jump_key
-		li a0, KEY_JUMP
-		
-		unmemo(ra)
-		ret
-		
-	not_jump_key:
-		li t2, 'e'
-		bne t0, t2, not_absorb_key
-		li a0, KEY_ABSORB
-		
-		unmemo(ra)
-		ret
-		
-	not_absorb_key:
-		li t2, 'f'
-		bne t0, t2, not_special_key
-		li a0, KEY_SPECIAL
-		
-		unmemo(ra)
-		ret
-		
-	not_special_key:
-		li a0, KEY_NOTHING
-			
-	unmemo(ra)
-	ret
-	
-	ret_kbd_input:
-		mv a0, zero
-		unmemo(ra)
-		ret
-
-######################################################
-
 
 STOP_VERTICAL_MOV:
 
@@ -580,6 +355,160 @@ PROCESS_MOVEMENT:
 		# t2 -> posicao do tile
 		la t3, MAP_ADDRESS
 		lw t3, 0(t3)
+		
+	
+CHECK_FOR_ENEMY_ABSORPTION:
+	memo(ra)
+	la t4, PLAYER_FACING
+	lb t5, 0(t4)
+	
+	la t4, PLAYER_X
+	lh t6, 0(t4)    
+	
+
+	mv t3, t6
+	addi t2, t6, 48
+	
+	li a7, PLAYER_FACING_LEFT
+	beq t5, a7, set_left_range
+	
+	j start_scan      
+	
+	set_left_range:
+	addi t3, t6, -32                 
+	mv t2, t6                        
+	
+	start_scan:
+	
+	la t0, ENEMIES_ADDRESS
+	li t1, ENEMY_LIST_SIZE
+	li t4, ENEMY_MEMORY_SIZE
+	mul t1, t1, t4
+	add t1, t0, t1
+		
+	la t5, PLAYER_Y
+	lh t6, 0(t5)
+	
+	mv t5, t0                       
+	
+	loop_enemy_abs:
+	beq t5, t1, done_enemy_abs
+	
+	lb a7, ENEMY_ACTIVE(t5)
+	beqz a7, next_enemy_abs
+	
+	lh a7, ENEMY_X(t5)
+	
+	
+	
+	#Check if ENEMY_X is within range
+	blt a7, t3, next_enemy_abs
+	bgt a7, t2, next_enemy_abs
+	
+	lh t4, ENEMY_Y(t5)
+	bne t4, t6, next_enemy_abs       
+	
+	
+	# ENEMY FOUND AT ABSORPTION RANGE
+	
+	sb zero, ENEMY_ACTIVE(t5)
+	# aqui tambem  trocaria a flag PLYAER_STATE como novo inimigo absorvido
+	
+	
+	next_enemy_abs:
+		
+	add t5, t5, t4
+	j loop_enemy_abs
+	
+	done_enemy_abs:
+	    # Exit or continue execution
+	
+	
+	unmemo(ra)
+	ret
+
+CHECK_FOR_ENEMY_DAMAGE:
+	memo(ra)
+	la t0, ENEMIES_ADDRESS      
+	li t2, ENEMY_LIST_SIZE      
+	li t3, ENEMY_MEMORY_SIZE  
+	mul t2, t2, t3         
+	add t2, t0, t2        
+
+	la t4, PLAYER_X    
+	lh t5, 0(t4)          
+	addi t5, t5, 8   
+	
+	la t4, PLAYER_Y   
+	lh t6, 0(t4)    
+
+	mv t4, t0          
+
+	loop_enemy_dmg_check:
+	
+	beq t4, t2, done_enemy_dmg_check       
+
+	lb a7, ENEMY_ACTIVE(t4)         
+	beqz a7, next_enemy
+
+	lh a7, ENEMY_X(t4)   
+	addi t1, a7, 16 
+
+	#check if PLAYER_X >= ENEMY_X
+	blt t5, a7, next_enemy       
+	
+	#check if PLAYER_X <= ENEMY_X + 16
+	bgt t5, t1, next_enemy     
+
+	lh t1, ENEMY_Y(t4)
+	bne t1, t6, next_enemy
+	
+	print_int(zero) # CAUSAR DANO AQUI
+
+	next_enemy:
+	add t4, t4, t3
+	j loop_enemy_dmg_check
+
+	done_enemy_dmg_check:
+	unmemo(ra)
+	ret
+
+
+CHECK_CURRENT_TILE:
+	la t0, PLAYER_Y
+	lh t4, 0(t0)
+	la t0, PLAYER_X
+	lh t5, 0(t0)
+		
+	# check for tile (middle)
+	mv t0, t5
+	mv t1, t4
+	addi t0, t0, 8
+	addi t1, t1, 8
+	# (t0, t1) = (x+8, y+8)
+	srai t0, t0, 4
+	srai t1, t1, 4
+	addi t2, zero, 10
+	mul t2, t2, t0
+	add t2, t2, t1
+	addi t2, t2, 1
+	# t2 -> posicao do tile
+	la t3, MAP_ADDRESS
+	lw t3, 0(t3)
+	add t3, t3, t2
+	lb t4, 0(t3)
+	li t2, CLOSED_DOOR_TILE
+	
+	bne t4, t2, SKIP_DOOR_WIN
+	
+	la t0, PLAYER_WON
+	li t1, 1
+	sb t1, 0(t0)
+	
+	SKIP_DOOR_WIN:
+
+	ret
+
 		add t3, t3, t2
 		lb t4, 0(t3)
 		li t2, 1
@@ -609,27 +538,16 @@ PROCESS_MOVEMENT:
 	unmemo(ra)
 	ret
 
-MAIN:
-	sleep(35)
-	call GAME_RENDER
-	call GAME_CONTROL
-	call GAME_LOGIC
-	li t0, GAME_STATE
-	lb t0, 0(t0)
-	li t1, GAME_STATE_ACTION
-	bne t0, t1, MAIN
-	
+PLAYER_ACTION:
+	memo(ra)
+	memo(s0)
 	jal CHECK_CURRENT_TILE
 	
-	jal GET_INPUT_TEST
+	jal GET_INPUT
 
 	mv s0, a0
 	jal PROCESS_MOVEMENT
 	jal CHECK_FOR_ENEMY_DAMAGE
-	
-	j MAIN
-
-.include "../src/control/control.s"
-.include "../src/logic/logic.s"
-.include "../src/video/video.s"
-.include "../SYSTEMv24.s"
+	unmemo(s0)
+	unmemo(ra)
+	ret
