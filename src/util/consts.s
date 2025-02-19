@@ -22,6 +22,8 @@
 .eqv MENU_COLOR 0b01001010 
 .eqv BASE_STRING_COLOR 0x0ff
 .eqv MENU_STRING_COLOR 0x03f
+.eqv RIGHT_OFFSET 160
+.eqv LEFT_OFFSET 40
 
 # Constantes de áudio
 .eqv MG_MIN_WORD 0x10000000 #MIN_WORD Mage Embler
