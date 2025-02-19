@@ -8,8 +8,39 @@ call MAIN
 
 
 
+CHECK_CURRENT_TILE:
+	la t0, PLAYER_Y
+	lh t4, 0(t0)
+	la t0, PLAYER_X
+	lh t5, 0(t0)
+		
+	# check for tile (middle)
+	mv t0, t5
+	mv t1, t4
+	addi t0, t0, 8
+	addi t1, t1, 8
+	# (t0, t1) = (x+8, y+8)
+	srai t0, t0, 4
+	srai t1, t1, 4
+	addi t2, zero, 10
+	mul t2, t2, t0
+	add t2, t2, t1
+	addi t2, t2, 1
+	# t2 -> posicao do tile
+	la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	add t3, t3, t2
+	lb t4, 0(t3)
+	li t2, CLOSED_DOOR_TILE
+	
+	bne t4, t2, SKIP_DOOR_WIN
+	
+	la t0, PLAYER_WON
+	li t1, 1
+	sb t1, 0(t0)
+	
+	SKIP_DOOR_WIN:
 
-
+	ret
 
 GET_INPUT_TEST:
 	# arugmentos: nenhum
@@ -156,7 +187,7 @@ CEILED:
 ######################################################
 
 PROCESS_MOVEMENT:
-	# argumentos: a0 (KEY_LEFT, KEY_RIGHT, KEY_JUMP)
+	# argumentos: a0 (KEY_LEFT, KEY_RIGHT, KEY_JUMP, KEY_ABSORB)
 	memo(ra)
 	
 	li t0, KEY_RIGHT
@@ -438,6 +469,13 @@ PROCESS_MOVEMENT:
 	la t0, PLAYER_VEL_X
 	sb zero, 0(t0)
 	
+	
+	
+	#li t0, KEY_RIGHT
+	#beq t0, a0, right_check
+	
+	
+	
 	unmemo(ra)
 	ret
 
@@ -450,6 +488,8 @@ MAIN:
 	lb t0, 0(t0)
 	li t1, GAME_STATE_ACTION
 	bne t0, t1, MAIN
+	
+	jal CHECK_CURRENT_TILE
 	
 	jal GET_INPUT_TEST
 
