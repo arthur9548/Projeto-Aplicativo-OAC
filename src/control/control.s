@@ -39,7 +39,7 @@ from_init_game_control:
 from_config_game_control:
 	#jogo vai se configurar sozinho
 	
-	la a0, GAME_STATE_ACTION #passa para o jogo em si
+	li a0, GAME_STATE_ACTION #passa para o jogo em si
 	
 	j ret_game_control
 	
