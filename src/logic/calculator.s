@@ -20,3 +20,9 @@ POINT_DIST:
 	add a0, a0, a4
 	unmemo(ra)
 	ret
+
+#retorna random de 0 a valor de a0
+RAND_INT:
+   csrr t0, time 
+   remu a0, t0, a0
+   ret

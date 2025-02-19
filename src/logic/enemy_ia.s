@@ -91,11 +91,10 @@ enemy_do_nothing: #não faz literalmente nada
 	j ret_enemy_decision
 	
 enemy_relax:
-	lw t0, ENEMY_COUNTER(s0)
-	andi t0, t0, 0x010 #pega segundo LSB
-	li t1, 1
-	sub t1, t1, t0 #1 ou -1 dependendo
-	sh t1, ENEMY_VEL_X(s0) #anda de forma alternada
+	li a0, 3 #velocidade de -1 a 1
+	call RAND_INT
+	addi a0, a0, -1
+	sh a0, ENEMY_VEL_X(s0) #anda de forma alternada
 	j ret_enemy_decision
 	
 enemy_change_dir: #direção certa no t0
@@ -110,6 +109,7 @@ enemy_melee_action:
 	li t1, VEL_MELEE
 	mul t0, t0, t1 #velocidade direcional
 	sh t0, ENEMY_VEL_X(s0)
+	#print_int(t0)
 	j ret_enemy_decision
 	
 enemy_range_action:
