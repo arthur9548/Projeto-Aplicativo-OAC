@@ -6,6 +6,11 @@
 .text
 call MAIN
 
+
+
+
+
+
 GET_INPUT_TEST:
 	# arugmentos: nenhum
 	# retorna: a0 (KEY_LEFT, KEY_RIGHT, KEY_JUMP, KEY_ABSORB. KEY_SPECIAL) ou 0 (KEY_NOTHING), caso nenhuma tecla pressionada
@@ -69,132 +74,145 @@ GET_INPUT_TEST:
 		unmemo(ra)
 		ret
 
-PROCESS_MOVEMENT:
-	# argumentos: a0 (KEY_LEFT, KEY_RIGHT, KEY_JUMP)
+######################################################
+
+
+STOP_VERTICAL_MOV:
+
+	la t0, PLAYER_VEL_Y
+	sb zero, 0(t0)
 	
-	memo(ra)
-	
-	la t0, PLAYER_Y
-	lh t4, 0(t0)
-	
-	la t0, PLAYER_X
-	lh t5, 0(t0)
+	j fall_check
+
+
+STOP_HORIZONTAL_MOV:
 	
 	la t0, PLAYER_VEL_X
-	lb t6, 0(t0)
-	
-	# t4 = y
-	# t5 = x
-	# t6 = vel_x
+	sb zero, 0(t0) 
 	
 	
+	j fall_check
+
+APPLY_VELS:
+	memo(ra)
 	
-	# check ground
-	
-	# check for Y obstacle (bot left)
-	mv t0, t5
-	mv t1, t4
-	addi t1, t1, 16
-	# (t0, t1) = (x, y+16)
-	srai t0, t0, 4
-	srai t1, t1, 4
-	addi t2, zero, 10
-	mul t2, t2, t0
-	add t2, t2, t1
-	addi t2, t2, 1
-	# t2 -> posicao do tile
-	la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	add t3, t3, t2
-	lb t4, 0(t3)
-		
-	addi t0, zero, 1
-	
-	la t1, PLAYER_IS_GROUNDED
-	li t2, 1
-	beq t4, t0, GROUND_DETECTED
-	sb zero, 0(t1) # PLAYER_IS_GROUNDED = 0
+	#Y
 	la t0, PLAYER_VEL_Y
 	lb t1, 0(t0)
-	addi t1, t1, 1
+	
+	la t2, PLAYER_Y
+	lh t3, 0(t2)
+	add t3, t3, t1
+	sh t3, 0(t2)
+	
+	#X
+	la t0, PLAYER_VEL_X
+	lb t1, 0(t0)
+	
+	la t2, PLAYER_X
+	lh t3, 0(t2)
+	add t3, t3, t1
+	sh t3, 0(t2)
+	
+	unmemo(ra)
+	ret
+	
+
+GROUNDED:
+	#memo(ra)
+	la t0, PLAYER_VEL_Y
+	sb zero, 0(t0)
+	
+	la t0, PLAYER_IS_GROUNDED
+	li t1, 1
 	sb t1, 0(t0)
 	
-	li s0, 1
+	la t2, PLAYER_Y
+	lh t3, 0(t2)
 	
-	j skip_ground_detected
+	srai t3, t3, 4
+	slli t3, t3, 4
 	
-	GROUND_DETECTED:
-		sb t0, 0(t1) # PLAYER_IS_GROUNDED = 1
-		
-		la t0, PLAYER_VEL_Y
-		sb zero, 0(t0) #PALYER_VEL_Y = 0
-		
-		li t2, 0 # is_grounded
-		li s0, 0
-		
-	skip_ground_detected:
+	sh t3, 0(t2)
+
+	#unmemo(ra)
+	j jump_check
+
+CEILED:
+	la t0, PLAYER_VEL_Y
+	lb t1, 0(t0)
+	bgez t1, end_proc_mov
+	sb zero, 0(t0)
 	
+	la t2, PLAYER_Y
+	lh t3, 0(t2)
+	addi t3, t3, 15
 	
-	la t0, PLAYER_Y
-	lh t4, 0(t0)
+	srai t3, t3, 4
+	slli t3, t3, 4
 	
-	la t1, PLAYER_VEL_Y
-	lb t3, 0(t1)
-		
-	add t4, t4, t3
-	
-	beqz s0, fix_ground_lvl
-	
-	j skip_ground_lvl_fix
-	
-	fix_ground_lvl:
-		li s0, 1
-		srli t4, t4, 4
-		slli t4, t4, 4
-	
-	skip_ground_lvl_fix:
-	
-	sh t4, 0(t0)
-	
+	sh t3, 0(t2)
+	j end_proc_mov
+######################################################
+
+PROCESS_MOVEMENT:
+	# argumentos: a0 (KEY_LEFT, KEY_RIGHT, KEY_JUMP)
+	memo(ra)
 	
 	li t0, KEY_RIGHT
 	beq t0, a0, right_check
-	
+
 	li t0, KEY_LEFT
 	beq t0, a0, left_check
 	
 	li t0, KEY_JUMP
-	beq t0, a0, jump_check
+	beq t0, a0, fall_check
 	
+	j fall_check
 	
+	right_check:
+	
+		la t0, PLAYER_FACING
+		li t1, PLAYER_FACING_RIGHT
+		sb t1, 0(t0)
 
-	j no_input
-	
-	jump_check:
-		la t0, PLAYER_IS_GROUNDED
-		lb t1, 0(t0)
-		li t2, 1
-
-		bne t1, t2, jump_skip
-		jump_activate:
-			li t0, PLAYER_VEL_Y
-			addi t1, zero, -7
-			sb t1, 0(t0)
-		jump_skip:
-			
-		j no_input
+		# check for X obstacle (top right)
 		
-	
-	left_check:
+		la t0, PLAYER_Y
+		lh t4, 0(t0)
+		la t0, PLAYER_X
+		lh t5, 0(t0)
 		
-		addi t6, zero, -6
-		
-		
-		# check for X obstacle (top left)
 		mv t0, t5
 		mv t1, t4
-		addi t0, t0, -1
-		# (t0, t1) = (x-1, y)
+		addi t0, t0, 16
+		# (t0, t1) = (x+16, y)
+		srai t0, t0, 4
+		srai t1, t1, 4
+		addi t2, zero, 10
+		mul t2, t2, t0
+		add t2, t2, t1
+		addi t2, t2, 1
+		# t2 -> posicao do tile (t0, t1)
+		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		add t3, t3, t2
+		lb t4, 0(t3)
+		addi t0, zero, 1
 		
+		beq t4, t0, STOP_HORIZONTAL_MOV
+		
+		# check for X obstacle (bot right)
+		
+		la t0, PLAYER_Y
+		lh t4, 0(t0)
+		la t0, PLAYER_X
+		lh t5, 0(t0)
+		
+		mv t0, t5
+		mv t1, t4
+		addi t0, t0, 16
+		addi t1, t1, 15
+		# (t0, t1) = (x+16, y+15)
 		srai t0, t0, 4
 		srai t1, t1, 4
 		addi t2, zero, 10
@@ -203,170 +221,228 @@ PROCESS_MOVEMENT:
 		addi t2, t2, 1
 		# t2 -> posicao do tile
 		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		
 		add t3, t3, t2
 		lb t4, 0(t3)
-		
 		addi t0, zero, 1
-		beq t4, t0, WALL_DETECTED
 		
-		#j SKIP_HORIZONTAL_DETECTION
+		beq t4, t0, STOP_HORIZONTAL_MOV 
+		
+		# finally change vel_x
+		
+		la t0, PLAYER_VEL_X
+		li t1, 3
+		sb t1, 0(t0)
+		
+		j fall_check
+		
+	left_check:
+		la t0, PLAYER_FACING
+		li t1, PLAYER_FACING_LEFT
+		sb t1, 0(t0)
+		# check for X obstacle (top left)
 		
 		la t0, PLAYER_Y
 		lh t4, 0(t0)
+		la t0, PLAYER_X
+		lh t5, 0(t0)
+		
+		mv t0, t5
+		mv t1, t4
+		addi t0, t0, -1
+		# (t0, t1) = (x-1, y)
+		srai t0, t0, 4
+		srai t1, t1, 4
+		addi t2, zero, 10
+		mul t2, t2, t0
+		add t2, t2, t1
+		addi t2, t2, 1
+		# t2 -> posicao do tile (t0, t1)
+		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		add t3, t3, t2
+		lb t4, 0(t3)
+		addi t0, zero, 1
+		
+		beq t4, t0, STOP_HORIZONTAL_MOV
 		
 		# check for X obstacle (bot left)
+		
+		la t0, PLAYER_Y
+		lh t4, 0(t0)
+		la t0, PLAYER_X
+		lh t5, 0(t0)
 		
 		mv t0, t5
 		mv t1, t4
 		addi t0, t0, -1
 		addi t1, t1, 15
 		# (t0, t1) = (x-1, y+15)
-		
 		srai t0, t0, 4
 		srai t1, t1, 4
 		addi t2, zero, 10
 		mul t2, t2, t0
 		add t2, t2, t1
 		addi t2, t2, 1
-		
-		
 		# t2 -> posicao do tile
 		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		
 		add t3, t3, t2
 		lb t4, 0(t3)
-		
 		addi t0, zero, 1
-		beq t4, t0, WALL_DETECTED
 		
-		j SKIP_HORIZONTAL_DETECTION
+		beq t4, t0, STOP_HORIZONTAL_MOV 
 		
+		# finally change vel_x
 		
-	right_check:
+		la t0, PLAYER_VEL_X
+		li t1, -3
+		sb t1, 0(t0)
 		
-		addi t6, zero, 6
+		j fall_check
 		
-		# check for X obstacle (top right)
-		mv t0, t5
-		mv t1, t4
-		addi t0, t0, 16
-		# (t0, t1) = (x+17, y)
-		
-		srai t0, t0, 4
-		srai t1, t1, 4
-		addi t2, zero, 10
-		mul t2, t2, t0
-		add t2, t2, t1
-		addi t2, t2, 1
-		# t2 -> posicao do tile a direita de cima (t0, t1)
-		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		
-		add t3, t3, t2
-		lb t4, 0(t3)
-		
-		addi t0, zero, 1
-		beq t4, t0, WALL_DETECTED
-		
-		#j SKIP_HORIZONTAL_DETECTION
+	
+	
+	fall_check:
 		
 		la t0, PLAYER_Y
 		lh t4, 0(t0)
+		la t0, PLAYER_X
+		lh t5, 0(t0)
 		
-		# check for X obstacle (bot right)
-		
+		# check for Y obstacle (bot left)
 		mv t0, t5
 		mv t1, t4
-		addi t0, t0, 16
-		addi t1, t1, 15
-		# (t0, t1) = (x+17, y+16)
-		
+		addi t1, t1, 16
+		# (t0, t1) = (x, y+16)
 		srai t0, t0, 4
 		srai t1, t1, 4
 		addi t2, zero, 10
 		mul t2, t2, t0
 		add t2, t2, t1
 		addi t2, t2, 1
-		
-		
-		# t2 -> posicao do tile a direita de baixo (t0, t1)
+		# t2 -> posicao do tile
 		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		
 		add t3, t3, t2
 		lb t4, 0(t3)
+		li t2, 1
 		
-		addi t0, zero, 1
-		beq t4, t0, WALL_DETECTED
+		beq t4, t2, GROUNDED
 		
-		j SKIP_HORIZONTAL_DETECTION
+		la t0, PLAYER_Y
+		lh t4, 0(t0)
+		la t0, PLAYER_X
+		lh t5, 0(t0)
+		
+		# check for Y obstacle (bot right)
+		mv t0, t5
+		mv t1, t4
+		addi t0, t0, 15
+		addi t1, t1, 16
+		# (t0, t1) = (x+15, y+16)
+		srai t0, t0, 4
+		srai t1, t1, 4
+		addi t2, zero, 10
+		mul t2, t2, t0
+		add t2, t2, t1
+		addi t2, t2, 1
+		# t2 -> posicao do tile
+		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		add t3, t3, t2
+		lb t4, 0(t3)
+		li t2, 1
+		
+		beq t4, t2, GROUNDED
+	
+		# finally change vel_y
+		
+		la t0, PLAYER_IS_GROUNDED
+		sb zero, 0(t0)
+		
+		la t0, PLAYER_VEL_Y
+		lh t1, 0(t0)
+		addi t1, t1, 1
+		sb t1, 0(t0)
+		
+	
+	
+	jump_check:
+		li t0, KEY_JUMP
+		bne t0, a0, jump_skip
+		
+		la t0, PLAYER_IS_GROUNDED
+		lb t1, 0(t0)
+		li t2, 1
+		bne t1, t2, jump_skip
+		jump_activate:
+
+			li t0, PLAYER_VEL_Y
+			addi t1, zero, -8
+			sb t1, 0(t0)
+			la t0, PLAYER_IS_GROUNDED
+			sb zero, 0(t0)
+		jump_skip:
+	
+	ceil_check:
+		la t0, PLAYER_Y
+		lh t4, 0(t0)
+		la t0, PLAYER_X
+		lh t5, 0(t0)
+		
+		# check for Y obstacle (top left)
+		mv t0, t5
+		mv t1, t4
+		addi t1, t1, -1
+		# (t0, t1) = (x, y-1)
+		srai t0, t0, 4
+		srai t1, t1, 4
+		addi t2, zero, 10
+		mul t2, t2, t0
+		add t2, t2, t1
+		addi t2, t2, 1
+		# t2 -> posicao do tile
+		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		add t3, t3, t2
+		lb t4, 0(t3)
+		li t2, 1
+		
+		beq t4, t2, CEILED
 		
 		
-	WALL_DETECTED:
-		mv t6, zero
-	
-	
-	# t4 -> valor do tile a direita de cima
-	
-	
-	SKIP_HORIZONTAL_DETECTION:
-	
-	add t5, t5, t6
-	la t0, PLAYER_X
-	sh t5, 0(t0)
-	
-	unmemo(ra)
-	ret
-	
-	no_input:
-	#mv t6, zero
-	#la t0, PLAYER_VEL_X
-	#sb t6, 0(t0)
-	
-	
-	#la t1, PLAYER_VEL_Y
-	#lb t3, 0(t1)
+		la t0, PLAYER_Y
+		lh t4, 0(t0)
+		la t0, PLAYER_X
+		lh t5, 0(t0)
 		
-	#la t0, PLAYER_Y
-	#lh t4, 0(t0)
-	
-	#add t4, t4, t3
-	
-	#beqz s0, skip_fix_fix_ground
-	#srli t4, t4, 2
-	#slli t4, t4, 2
-	
-	#skip_fix_fix_ground:
-	
-	#sh t4, 0(t0)
-	
+		# check for Y obstacle (top right)
+		mv t0, t5
+		mv t1, t4
+		addi t0, t0, 15
+		addi t1, t1, -1
+		# (t0, t1) = (x+15, y-1)
+		srai t0, t0, 4
+		srai t1, t1, 4
+		addi t2, zero, 10
+		mul t2, t2, t0
+		add t2, t2, t1
+		addi t2, t2, 1
+		# t2 -> posicao do tile
+		la t3, mapa_de_testes #MUDAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		add t3, t3, t2
+		lb t4, 0(t3)
+		li t2, 1
 		
-	la t0, PLAYER_Y
-	lh t4, 0(t0)
-	
-	la t1, PLAYER_VEL_Y
-	lb t3, 0(t1)
+		beq t4, t2, CEILED
 		
-	add t4, t4, t3
+		
+	end_proc_mov:
 	
-	beqz s0, fix_ground_lvl2
-	
-	j skip_ground_lvl_fix2
-	
-	fix_ground_lvl2:
-		srli t4, t4, 4
-		slli t4, t4, 4
-	
-	skip_ground_lvl_fix2:
-	
-	sh t4, 0(t0)
-	
-	
+	jal APPLY_VELS
+	la t0, PLAYER_VEL_X
+	sb zero, 0(t0)
 	
 	unmemo(ra)
 	ret
 
 MAIN:
-	sleep(65)
+	sleep(35)
 	call GAME_RENDER
 	call GAME_CONTROL
 	call GAME_LOGIC
@@ -375,7 +451,7 @@ MAIN:
 	li t1, GAME_STATE_ACTION
 	bne t0, t1, MAIN
 	
-	jal GET_INPUT
+	jal GET_INPUT_TEST
 
 	mv s0, a0
 	jal PROCESS_MOVEMENT
