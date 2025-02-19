@@ -11,6 +11,15 @@ MAIN:
 	call GAME_RENDER
 	#call GAME_AUDIO
 	call GAME_LOGIC
+	li t0, GAME_STATE
+	lb t0, 0(t0)
+	li t1, GAME_STATE_ACTION
+	bne t0, t1, MAIN
+	
+	call process_input
+	call move_player
+	j MAIN
+	
 	call GET_INPUT
 	li t0, KEY_LEFT
 	beq a0, t0, lose
@@ -27,6 +36,51 @@ win:
 	li t0, 1
 	sb t0, 0(t1) #ganha
 	j MAIN
+	
+process_input:
+	memo(ra)
+	call GET_INPUT
+	
+	li t0, KEY_LEFT
+	beq a0, t0, going_left_input
+	
+	li t0, KEY_RIGHT
+	beq a0, t0, going_right_input
+	
+	li t0, KEY_NOTHING
+	beq a0, t0, staying_input
+	
+ret_process_input:
+	unmemo(ra)
+	ret
+
+going_left_input:
+	li t0, -1
+	la t1, PLAYER_VEL_X
+	sh t0, 0(t1)
+	j ret_process_input
+	
+going_right_input:
+	li t0, 1
+	la t1, PLAYER_VEL_X
+	sh t0, 0(t1)
+	j ret_process_input
+	
+staying_input:
+	li t0, 0
+	la t1, PLAYER_VEL_X
+	sh t0, 0(t1)
+	j ret_process_input
+	
+move_player:
+	la t0, PLAYER_VEL_X
+	lh t0, 0(t0)
+	la t1, PLAYER_X
+	lh t1, 0(t1)
+	add t1, t1, t0
+	la t0, PLAYER_X
+	sh t1, 0(t0)
+	ret
 
 .include "../src/video/video.s"
 .include "../src/audio/audio.s"	

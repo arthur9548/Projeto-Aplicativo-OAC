@@ -40,6 +40,8 @@ GAME_RENDER_ACTION:
 	call DRAW_MENU
 	call WRITE_MENU
 	
+	call CALC_OFFSET #calcula offset do mapa atual
+	
 	memo(s0)
 	la s0, MAP_OFFSET
 	lh s0, 0(s0) #offset do mapa

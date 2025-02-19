@@ -22,9 +22,26 @@
 .eqv MENU_COLOR 0b01001010 
 .eqv BASE_STRING_COLOR 0x0ff
 .eqv MENU_STRING_COLOR 0x03f
+.eqv RIGHT_OFFSET 160
+.eqv LEFT_OFFSET 40
 
 # Constantes de áudio
 .eqv MG_MIN_WORD 0x10000000 #MIN_WORD Mage Embler
+
+# Constantes dos inimigos
+.eqv ENEMY_LIST_SIZE
+.eqv ENEMY_MEMORY_SIZE 20
+.eqv ENEMY_X 0
+.eqv ENEMY_Y 2
+.eqv ENEMY_VEL_X 4
+.eqv ENEMY_VEL_Y 6
+.eqv ENEMY_TYPE 8
+.eqv ENEMY_HP 9
+.eqv ENEMY_DIR 10
+.eqv ENEMY_ACTIVE 11
+.eqv ENEMY_COUNTER 12
+.eqv ENEMY_EXTRA 16
+
 
 # Constantes do player:
 .eqv PLAYER_FACING_LEFT 0
