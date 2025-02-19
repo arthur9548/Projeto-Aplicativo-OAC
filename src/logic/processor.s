@@ -3,9 +3,17 @@
 #inicializa uma fase escolhida no jogo
 #escolha é feita na memória
 INIT_MAP:
+	la t0, PLAYER_X
+	li t1, START_X
+	sh t1, 0(t0)
+	la t0, PLAYER_Y
+	li t1, START_Y
+	sh t1, 0(t0)
 	la t3, CUR_MAP_INDEX 
 	lb t3, 0(t3) #mapa atual
 	la t2, MAP_ADDRESS #endereço do mapa atual
+	la t4, MAP_ITSELF
+	sw t4, 0(t2) #endereço para o mapa atual
 	la t1, MAP_TILE_SPRITES #endereço dos tiles desse mapa
 	
 	li t0, 0
@@ -17,9 +25,10 @@ INIT_MAP:
 	li t0, 2
 	beq t3, t0, case2_init_map 
 	
-ret_init_map: #t0 é o endereço do mapa
+ret_init_map: #t0 é o endereço do mapa, copiar ele pro map_itself
 	memo(ra)
 	mv a0, t0
+	call COPY_MAP #retorna em a0 MAP_ITSELF
 	call INIT_ENEMIES #inicializa os inimigos no mapa
 	unmemo(ra)
 	ret
@@ -36,7 +45,6 @@ case0_init_map:
 	la t0, closed_door_tile 
 	sw t0, 16(t1)
 	la t0, mapa_fase_0
-	sw t0, 0(t2) #endereço do mapa
 	j ret_init_map
 	
 		
@@ -52,7 +60,6 @@ case1_init_map:
 	la t0, closed_door_tile 
 	sw t0, 16(t1)
 	la t0, mapa_fase_1
-	sw t0, 0(t2) #endereço do mapa
 	j ret_init_map
 	
 case2_init_map:
@@ -67,8 +74,34 @@ case2_init_map:
 	la t0, closed_door_tile 
 	sw t0, 16(t1)
 	la t0, mapa_fase_2
-	sw t0, 0(t2) #endereço do mapa
 	j ret_init_map
+	
+COPY_MAP: #copia o mapa em a0 pra MAP_ITSELF
+	memo(s0)
+	memo(s1)
+	mv s0, a0
+	lb s1, 0(s0) #tamanho
+	la a0, MAP_ITSELF
+	sb s1, 0(a0)
+	addi s0, s0, 1 #passa para os dados
+	addi a0, a0, 1
+	li t0, MAP_H
+	mul s1, s1, t0 #tamanho do mapa em si
+	add s1, s0, s1 #final desse mapa
+loop_copy_map:
+	beq s0, s1, end_copy_map
+	lb t0, 0(s0)
+	sb t0, 0(a0)
+	addi s0, s0, 1 #anda 1
+	addi a0, a0, 1 #anda 1
+	j loop_copy_map
+end_copy_map:
+	la a0, MAP_ITSELF
+	unmemo(s1)
+	unmemo(s0)
+	ret
+	
+	
 	
 #limpa a lista de inimigos do mapa
 CLEAR_ENEMIES:

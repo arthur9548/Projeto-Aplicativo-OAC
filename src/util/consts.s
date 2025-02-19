@@ -4,6 +4,9 @@
 .eqv GAME_STATE_OVER 2
 .eqv GAME_STATE_CONFIG 3
 
+.eqv START_X 64
+.eqv START_Y 128
+
 # Constantes de fase
 .eqv MAP_W 20
 .eqv MAP_H 10

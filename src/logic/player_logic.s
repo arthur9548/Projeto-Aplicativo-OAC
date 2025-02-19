@@ -111,7 +111,7 @@ CHECK_FOR_ENEMY_DAMAGE:
 	bne t1, t6, next_enemy
 	
 	la s11, PLAYER_ALIVE #dano
-	#sb zero, 0(s11)
+	sb zero, 0(s11)
 
 	next_enemy:
 	add t4, t4, t3

@@ -1,7 +1,7 @@
 .data
 
-PLAYER_X: .half 64
-PLAYER_Y: .half 128
+PLAYER_X: .half START_X
+PLAYER_Y: .half START_Y
 PLAYER_VEL_X: .byte 0
 PLAYER_VEL_Y: .byte 0
 
