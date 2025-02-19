@@ -56,6 +56,10 @@ CHECK_FOR_ENEMY_ABSORPTION:
 	
 	sb zero, ENEMY_ACTIVE(t5)
 	# aqui tambem  trocaria a flag PLYAER_STATE como novo inimigo absorvido
+	lb s11, ENEMY_TYPE(t5)
+	addi s11, s11, 1
+	la s10, PLAYER_STATE
+	sb s11, 0(s10)
 	
 	
 	next_enemy_abs:
@@ -106,7 +110,8 @@ CHECK_FOR_ENEMY_DAMAGE:
 	lh t1, ENEMY_Y(t4)
 	bne t1, t6, next_enemy
 	
-	print_int(zero) # CAUSAR DANO AQUI
+	la s11, PLAYER_ALIVE #dano
+	sb zero, 0(s11)
 
 	next_enemy:
 	add t4, t4, t3
@@ -300,6 +305,15 @@ PROCESS_MOVEMENT:
 	# argumentos: a0 (KEY_LEFT, KEY_RIGHT, KEY_JUMP, KEY_ABSORB)
 	memo(ra)
 	
+	li t0, KEY_SPECIAL
+	bne a0, t0, continue_pm
+	li t1, 1
+	la t0, PLAYER_WON
+	sb t1, 0(t0)
+	unmemo(ra)
+	ret
+	
+continue_pm:	
 	li t0, KEY_RIGHT
 	beq t0, a0, right_check
 
