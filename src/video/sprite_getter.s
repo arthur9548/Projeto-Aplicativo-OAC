@@ -31,7 +31,7 @@ SET_LEFT: lb a0, PLAYER_IS_ASPIRING
           lb a0, PLAYER_IS_GROUNDED
           bgt a0, zero, JUMP_PLAYER_LEFT
           
-          la a0, player_tile_left
+          la a0, player_tile_left_jumping
           j FIM_RENDER_PLAYER
            
              
@@ -41,7 +41,7 @@ ASPIRING_LEFT:
          
          
 JUMP_PLAYER_LEFT:
-         la a0, player_tile_left_jumping
+         la a0, player_tile_left
          j FIM_RENDER_PLAYER
          
          
@@ -52,7 +52,7 @@ SET_RIGHT:
           lb a0, PLAYER_IS_GROUNDED
           bgt a0, zero, JUMP_PLAYER_RIGHT
           
-          la a0, player_tile_right
+          la a0, player_tile_right_jumping
           j FIM_RENDER_PLAYER
           
 ASPIRING_RIGHT:
@@ -60,7 +60,7 @@ ASPIRING_RIGHT:
           j FIM_RENDER_PLAYER
 
 JUMP_PLAYER_RIGHT:
-         la a0, player_tile_right_jumping
+         la a0, player_tile_right
          j FIM_RENDER_PLAYER              
 
 PS_RANGER:
