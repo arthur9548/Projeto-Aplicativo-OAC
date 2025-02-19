@@ -32,7 +32,7 @@ col_loop_collision:
 		memo(a0)
 		memo(a1)
 		memo(a2)
-		#call TILE_INTERSECT
+		call TILE_INTERSECT
 		unmemo(a2)
 		unmemo(a1)
 		mv t0, a0

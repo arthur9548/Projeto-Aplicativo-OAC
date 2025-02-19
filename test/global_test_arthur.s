@@ -114,7 +114,8 @@ loop_enemies:
 	unmemo(t1)
 	unmemo(t0)
 	beqz a0, loop_enemies
-	#print_int(a0)
+	#print_int(a1)
+	#print_int(a2)
 	j loop_enemies
 end_enemies:
 	unmemo(ra)
