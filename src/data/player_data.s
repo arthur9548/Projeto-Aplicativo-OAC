@@ -1,5 +1,6 @@
 .data
 
+.align 2
 PLAYER_X: .half START_X
 PLAYER_Y: .half START_Y
 PLAYER_VEL_X: .byte 0
