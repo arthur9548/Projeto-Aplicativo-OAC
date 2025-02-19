@@ -105,7 +105,7 @@ SET_LEFT_M:
         lb a0, PLAYER_IS_GROUNDED
         bgt a0, zero, JUMP_PLAYER_LEFT_M
         
-        la a0, spider_fly_left
+        la a0, fly_kurby_left
         j FIM_RENDER_PLAYER
 JUMP_PLAYER_LEFT_M:
         la a0, fly_kurby_jumping_left
@@ -114,7 +114,7 @@ SET_RIGHT_M:
         lb a0, PLAYER_IS_GROUNDED
         bgt a0, zero, JUMP_PLAYER_RIGHT_M
         
-        la a0, spider_fly_right
+        la a0, fly_kurby_right
         j FIM_RENDER_PLAYER
 
 JUMP_PLAYER_RIGHT_M:
