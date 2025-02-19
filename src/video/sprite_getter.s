@@ -52,7 +52,7 @@ SET_RIGHT:
           lb a0, PLAYER_IS_GROUNDED
           bgt a0, zero, JUMP_PLAYER_RIGHT
           
-          la a0, player_tile_left
+          la a0, player_tile_right
           j FIM_RENDER_PLAYER
           
 ASPIRING_RIGHT:
