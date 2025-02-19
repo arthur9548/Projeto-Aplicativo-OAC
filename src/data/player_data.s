@@ -1,8 +1,8 @@
 .data
 
-PLAYER_X: .half 40
-PLAYER_Y: .half 120
-PLAYER_VEL_X: .byte 1
+PLAYER_X: .half 64
+PLAYER_Y: .half 128
+PLAYER_VEL_X: .byte 0
 PLAYER_VEL_Y: .byte 0
 
 PLAYER_IS_GROUNDED: .byte 0
