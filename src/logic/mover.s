@@ -8,12 +8,13 @@ COLLISION_MAP:
 	memo(s2)
 	memo(s3)
 	la a0, MAP_ADDRESS
+	lw a0, 0(a0) #endereço do mapa atual
 	lbu s2, 0(a0) #dimensão no X
 	li t6, TILE_W
 	mul s2, s2, t6 #s2 é o X máximo do mapa
-	li t3, MAP_H #dimensão no Y é MAP_H
+	li s3, MAP_H #dimensão no Y é MAP_H
 	li t6, TILE_H
-	mul t3, t3, t6 #t3 é o Y máximo do mapa
+	mul s3, s3, t6 #t3 é o Y máximo do mapa
 	
 	addi a0, a0, 1 #passa para o início dos dados
 	li s0, 0 #x
@@ -31,7 +32,7 @@ col_loop_collision:
 		memo(a0)
 		memo(a1)
 		memo(a2)
-		call TILE_INTERSECT
+		#call TILE_INTERSECT
 		unmemo(a2)
 		unmemo(a1)
 		mv t0, a0

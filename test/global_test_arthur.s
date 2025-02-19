@@ -108,11 +108,13 @@ loop_enemies:
 	add t1, t1, t3
 	sh t1, ENEMY_Y(a0)
 	
+	mv a1, t0
+	mv a2, t1
 	call COLLISION_MAP
 	unmemo(t1)
 	unmemo(t0)
 	beqz a0, loop_enemies
-	print_int(a0)
+	#print_int(a0)
 	j loop_enemies
 end_enemies:
 	unmemo(ra)

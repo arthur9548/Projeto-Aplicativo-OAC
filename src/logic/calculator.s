@@ -29,6 +29,10 @@ RAND_INT:
    
 #vê se um ponto (a1, a2) tá dentro do tile a3, a4
 INSIDE_TILE:
+	#print_int(a1)
+	#print_int(a2)
+	#print_int(a3)
+	#print_int(a4)
 	addi a5, a3, TILE_W
 	addi a5, a5, -1
 	addi a6, a4, TILE_H 
