@@ -38,7 +38,6 @@ case0_init_map:
 	la t0, mapa_fase_0
 	sw t0, 0(t2) #endereço do mapa
 	j ret_init_map
-	
 		
 case1_init_map:
 	la t0, oak_tile
