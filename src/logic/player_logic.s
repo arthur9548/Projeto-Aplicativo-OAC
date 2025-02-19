@@ -534,7 +534,7 @@ continue_pm:
 		bne t1, t2, jump_skip
 		jump_activate:
 
-			li t0, PLAYER_VEL_Y
+			la t0, PLAYER_VEL_Y
 			addi t1, zero, -8
 			sb t1, 0(t0)
 			la t0, PLAYER_IS_GROUNDED
