@@ -35,7 +35,7 @@ case0_init_map:
 	sw t0, 12(t1)
 	la t0, closed_door_tile 
 	sw t0, 16(t1)
-	la t0, mapa_de_testes
+	la t0, mapa_fase_0
 	sw t0, 0(t2) #endereço do mapa
 	j ret_init_map
 	
@@ -51,7 +51,7 @@ case1_init_map:
 	sw t0, 12(t1)
 	la t0, closed_door_tile 
 	sw t0, 16(t1)
-	la t0, mapa_de_testes
+	la t0, mapa_fase_1
 	sw t0, 0(t2) #endereço do mapa
 	j ret_init_map
 	
@@ -66,7 +66,7 @@ case2_init_map:
 	sw t0, 12(t1)
 	la t0, closed_door_tile 
 	sw t0, 16(t1)
-	la t0, mapa_de_testes
+	la t0, mapa_fase_2
 	sw t0, 0(t2) #endereço do mapa
 	j ret_init_map
 	

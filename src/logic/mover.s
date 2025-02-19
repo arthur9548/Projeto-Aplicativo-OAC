@@ -59,7 +59,7 @@ has_collision_map:
 	li a0, 1
 	j ret_collision_map
 
-#retorna se houve colisão no a1 no a2
+#retorna se houve colisão no a1 no a2, se seu endereço é a0
 COLLISION_ENEMIES:
 	memo(ra)
 	memo(s0)
@@ -73,12 +73,16 @@ loop_collision_enemies:
 	beq s0, s1, no_collision_enemies
 	lb t2, ENEMY_ACTIVE(s0)
 	beqz t2, continue_collision_enemies # se não estiver ativo continua
+	beq s0, a0, continue_collision_enemies #pula você mesmo
 	
 	lh a3, ENEMY_X(s0)
 	lh a4, ENEMY_Y(s0) #inimigo atual
 	
+	memo(a0)
 	call TILE_INTERSECT
-	beqz a0, continue_collision_enemies #se não colidiu ok
+	mv t0, a0
+	unmemo(a0)
+	beqz t0, continue_collision_enemies #se não colidiu ok
 	
 	j has_collision_enemies
 continue_collision_enemies:
@@ -95,7 +99,7 @@ no_collision_enemies:
 has_collision_enemies:
 	li a0, 1
 	j ret_collision_enemies
-	
+
 MOVE_ENEMIES:
 	memo(ra)
 	memo(s0)
@@ -125,7 +129,9 @@ loop_enemies:
 	mv a1, t0
 	mv a2, t1
 	call COLLISION_MAP
+	li a0, 0
 	memo(a0)
+	mv a0, s0 #seu endereço
 	call COLLISION_ENEMIES
 	mv t0, a0
 	unmemo(a0)
@@ -134,7 +140,7 @@ loop_enemies:
 	unmemo(a1) #recupera as posições antigas
 	
 	beqz a0, continue_enemies #se não colidiu ok
-	#print_int(a0)
+	print_int(a0)
 	#print_int(a1)
 	#print_int(a2)
 	sh a1, ENEMY_X(s0)
