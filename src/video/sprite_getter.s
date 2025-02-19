@@ -123,16 +123,29 @@ FIM_RENDER_PLAYER:          ret
 #retorna em a0 o endereço do sprite do inimigo cujo endereço é passado em a0
 GET_ENEMY_SPRITE:
 	lb t0, ENEMY_DIR(a0)
-	li t1, 0
-	beq t0, t1, left_ges
-	j right_ges
-left_ges:
-	la a0, spider_tile_left
+	lb t1, ENEMY_TYPE(a0)
+	li t2, 0
+	beq t1, t2, fly
+	li t2, 1
+	beq t1, t2, spider
+	la a0, mouse_final_boss
 	ret
-right_ges:
+spider:
+    li t2, 0
+	beq t0, t2, left_spider
 	la a0, spider_tile_right
 	ret
-	#depende da orientação e tipo de inimigo
+left_spider:
+	la a0, spider_tile_left
+	ret
+fly:
+    li t2, 0
+	beq t0, t2, left_fly
+	la a0, fly_tile_right
+	ret
+left_fly:
+	la a0, fly_tile_left
+	ret
 	
 #retorna em a0 o endereço do sprite do projétil cujo endereço é passado em a0
 GET_SHOT_SPRITE:
