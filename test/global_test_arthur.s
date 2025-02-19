@@ -2,6 +2,7 @@
 
 .include "../src/util/util.s"
 .include "../src/data/data.s"
+.include "../MACROSv24.s"
 
 .text
 MAIN:
@@ -9,7 +10,7 @@ MAIN:
 	call GAME_RENDER
 	call GAME_CONTROL
 	call GAME_LOGIC
-	call GAME_AUDIO
+	#call GAME_AUDIO
 	#li t0, GAME_STATE
 	#lb t0, 0(t0)
 	#li t1, GAME_STATE_ACTION
@@ -18,7 +19,7 @@ MAIN:
 	#call process_input
 	#call move_player
 	#call MOVE_ENEMIES
-	la t0, GAME_STATE
+	li t0, GAME_STATE
 	lb t0, 0(t0)
 	li t1, GAME_STATE_ACTION
 	bne t0, t1, MAIN
@@ -99,3 +100,4 @@ move_player:
 .include "../src/audio/audio.s"	
 .include "../src/logic/logic.s"
 .include "../src/control/control.s"
+.include "../SYSTEMv24.s"

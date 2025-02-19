@@ -111,7 +111,7 @@ CHECK_FOR_ENEMY_DAMAGE:
 	bne t1, t6, next_enemy
 	
 	la s11, PLAYER_ALIVE #dano
-	sb zero, 0(s11)
+	#sb zero, 0(s11)
 
 	next_enemy:
 	add t4, t4, t3
@@ -534,7 +534,7 @@ continue_pm:
 		bne t1, t2, jump_skip
 		jump_activate:
 
-			la t0, PLAYER_VEL_Y
+			li t0, PLAYER_VEL_Y
 			addi t1, zero, -8
 			sb t1, 0(t0)
 			la t0, PLAYER_IS_GROUNDED
