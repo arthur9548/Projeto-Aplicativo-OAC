@@ -6,6 +6,75 @@
 .text
 call MAIN
 
+CHECK_FOR_ENEMY_ABSORPTION:
+	memo(ra)
+	la t4, PLAYER_FACING
+	lb t5, 0(t4)
+	
+	la t4, PLAYER_X
+	lh t6, 0(t4)    
+	
+
+	mv t3, t6
+	addi t2, t6, 48
+	
+	li a7, PLAYER_FACING_LEFT
+	beq t5, a7, set_left_range
+	
+	j start_scan      
+	
+	set_left_range:
+	addi t3, t6, -32                 
+	mv t2, t6                        
+	
+	start_scan:
+	
+	la t0, ENEMIES_ADDRESS
+	li t1, ENEMY_LIST_SIZE
+	li t4, ENEMY_MEMORY_SIZE
+	mul t1, t1, t4
+	add t1, t0, t1
+		
+	la t5, PLAYER_Y
+	lh t6, 0(t5)
+	
+	mv t5, t0                       
+	
+	loop_enemy_abs:
+	beq t5, t1, done_enemy_abs
+	
+	lb a7, ENEMY_ACTIVE(t5)
+	beqz a7, next_enemy_abs
+	
+	lh a7, ENEMY_X(t5)
+	
+	
+	
+	#Check if ENEMY_X is within range
+	blt a7, t3, next_enemy_abs
+	bgt a7, t2, next_enemy_abs
+	
+	lh t4, ENEMY_Y(t5)
+	bne t4, t6, next_enemy_abs       
+	
+	
+	# ENEMY FOUND AT ABSORPTION RANGE
+	
+	sb zero, ENEMY_ACTIVE(t5)
+	# aqui tambem  trocaria a flag PLYAER_STATE como novo inimigo absorvido
+	
+	
+	next_enemy_abs:
+		
+	add t5, t5, t4
+	j loop_enemy_abs
+	
+	done_enemy_abs:
+	    # Exit or continue execution
+	
+	
+	unmemo(ra)
+	ret
 
 CHECK_FOR_ENEMY_DAMAGE:
 	memo(ra)
@@ -517,10 +586,16 @@ PROCESS_MOVEMENT:
 	
 	
 	
-	#li t0, KEY_RIGHT
-	#beq t0, a0, right_check
+	li t0, KEY_ABSORB
+	beq t0, a0, absorb_check
 	
+	j action_skip
 	
+	absorb_check:
+
+	jal CHECK_FOR_ENEMY_ABSORPTION
+	
+	action_skip:
 	
 	unmemo(ra)
 	ret

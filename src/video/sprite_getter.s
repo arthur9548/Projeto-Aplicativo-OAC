@@ -2,7 +2,7 @@
 
 #retorna em a0 o endereço do sprite do jogador
 GET_PLAYER_SPRITE:
-	la a0, test_tile #teste
+	la a0, player_tile_left #teste
 	ret
 	
 	#sprite depende de:
