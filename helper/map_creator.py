@@ -3,7 +3,7 @@
 
 from matrix_transposer import transpose
 
-codigos = {0: "Fundo", 1: "Bloco"}
+codigos = {0: "Fundo", 1: "Bloco", 2: "Água", 3: "Porta aberta", 4: "Porta fechada"}
 print("Dados atuais sobre o mapa:")
 print("Códigos suportados até agora")
 for k, v in codigos.items():

@@ -27,6 +27,10 @@ case0_init_map:
 	sw t0, 4(t1)
 	la t0, water_tile
 	sw t0, 8(t1) #informações de tile
+	la t0, open_door_tile
+	sw t0, 12(t1)
+	la t0, closed_door_tile 
+	sw t0, 16(t1)
 	la t0, mapa_de_testes
 	sw t0, 0(t2) #endereço do mapa
 	j ret_init_map
@@ -39,6 +43,10 @@ case1_init_map:
 	sw t0, 4(t1)
 	la t0, water_tile
 	sw t0, 8(t1) #informações de tile
+	la t0, open_door_tile
+	sw t0, 12(t1)
+	la t0, closed_door_tile 
+	sw t0, 16(t1)
 	la t0, mapa_de_testes
 	sw t0, 0(t2) #endereço do mapa
 	j ret_init_map
@@ -50,6 +58,10 @@ case2_init_map:
 	sw t0, 4(t1)
 	la t0, water_tile
 	sw t0, 8(t1) #informações de tile
+	la t0, open_door_tile
+	sw t0, 12(t1)
+	la t0, closed_door_tile 
+	sw t0, 16(t1)
 	la t0, mapa_de_testes
 	sw t0, 0(t2) #endereço do mapa
 	j ret_init_map

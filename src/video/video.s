@@ -77,6 +77,6 @@ GAME_RENDER_CONFIG:
 
 .include "frames.s"
 .include "drawing.s"
-.include "sprites.s"
+.include "sprite_getter.s"
 .include "writing.s"
 .include "printer.s"
