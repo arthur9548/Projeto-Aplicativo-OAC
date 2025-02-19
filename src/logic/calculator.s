@@ -26,3 +26,59 @@ RAND_INT:
    csrr t0, time 
    remu a0, t0, a0
    ret
+   
+#vê se um ponto (a1, a2) tá dentro do tile a3, a4
+INSIDE_TILE:
+	addi a5, a3, TILE_W
+	addi a5, a5, -1
+	addi a6, a4, TILE_H 
+	addi a6, a6, -1
+	
+	sub t0, a1, a3
+	bltz t0, not_inside_tile
+	
+	sub t0, a5, a3
+	bltz t0, not_inside_tile
+	
+	sub t0, a2, a4
+	bltz t0, not_inside_tile
+	
+	sub t0, a6, a2
+	bltz t0, not_inside_tile
+	
+is_inside_tile:
+	li a0, 1
+	ret
+not_inside_tile:
+	li a0, 0
+	ret
+	
+
+#retorna 1 se intersectam e 0 se não
+#tiles 16 por 16
+#posições a1, a2, a3 e a4
+TILE_INTERSECT:
+	memo(ra)
+	memo(a1)
+	call INSIDE_TILE
+	bnez a0, has_intersection
+	addi a1, a1, TILE_W
+	addi a1, a1, -1
+	call INSIDE_TILE
+	bnez a0, has_intersection
+	addi a2, a2, TILE_H
+	addi a2, a2, -1
+	call INSIDE_TILE
+	bnez a0, has_intersection
+	unmemo(a1)
+	call INSIDE_TILE
+	bnez a0, has_intersection
+ret_tile_intersect:
+	unmemo(ra)
+	ret
+no_intersection:
+	li a0, 0
+	j ret_tile_intersect
+has_intersection:
+	li a0, 1
+	j ret_tile_intersect

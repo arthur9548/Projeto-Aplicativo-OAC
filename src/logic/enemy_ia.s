@@ -94,6 +94,9 @@ enemy_relax:
 	li a0, 3 #velocidade de -1 a 1
 	call RAND_INT
 	addi a0, a0, -1
+	lb t0, ENEMY_TYPE(s0) #ver o tipo
+	li t1, ENEMY_RANGE_TYPE
+	beq t0, t1, ret_enemy_decision #se for range não se mexe
 	sh a0, ENEMY_VEL_X(s0) #anda de forma alternada
 	j ret_enemy_decision
 	

@@ -84,6 +84,7 @@ move_player:
 	ret
 	
 move_enemies:
+	memo(ra)
 	la t0, ENEMIES_ADDRESS
 	li t1, ENEMY_LIST_SIZE
 	li t2, ENEMY_MEMORY_SIZE
@@ -98,19 +99,23 @@ loop_enemies:
 	memo(t0)
 	memo(t1)
 	lh t0, ENEMY_VEL_X(a0)
-	#print_int(t0)
-	lh t1, ENEMY_X(a0)
-	add t0, t0, t1
+	lh t2, ENEMY_X(a0)
+	add t0, t0, t2
 	sh t0, ENEMY_X(a0)
 	
-	lh t0, ENEMY_VEL_Y(a0)
-	lh t1, ENEMY_Y(a0)
-	add t0, t0, t1
-	sh t0, ENEMY_Y(a0)
+	lh t1, ENEMY_VEL_Y(a0)
+	lh t3, ENEMY_Y(a0)
+	add t1, t1, t3
+	sh t1, ENEMY_Y(a0)
+	
+	call COLLISION_MAP
 	unmemo(t1)
 	unmemo(t0)
+	beqz a0, loop_enemies
+	print_int(a0)
 	j loop_enemies
 end_enemies:
+	unmemo(ra)
 	ret
 
 .include "../src/video/video.s"
