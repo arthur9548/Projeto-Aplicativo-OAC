@@ -67,3 +67,4 @@ GAME_LOGIC_OVER:
 .include "processor.s"
 .include "calculator.s"
 .include "enemy_ia.s"
+.include "mover.s"
