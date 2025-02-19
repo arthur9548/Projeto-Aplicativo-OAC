@@ -38,10 +38,14 @@ GAME_AUDIO_ACTION:
 	#descobre se algum som aconteceu e toca
 	la t0, PLAYER_ALIVE #ver se o jogador tá vivo
 	lb t0, 0(t0)
-	bnez t0, ret_gaa #não faz nada se estiver vivo
+	bnez t0, alive_gaa #não faz nada se estiver vivo
 	la t0, DIE_SONG
 	la t1, CONFIG_MUSIC
 	sw t0, 0(t1) #música a ser tocada durante a configuração é a de morte
+	j ret_gaa #retorna
+alive_gaa:
+	la t1, CONFIG_MUSIC
+	sw zero, 0(t1) #não deve tocar música na configuração
 ret_gaa:
 	j RET_GAME_AUDIO
 	

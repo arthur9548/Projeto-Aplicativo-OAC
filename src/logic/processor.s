@@ -15,7 +15,7 @@ INIT_MAP:
 	beq t3, t0, case1_init_map 
 	
 	li t0, 2
-	beq t3, t0, case1_init_map 
+	beq t3, t0, case2_init_map 
 	
 ret_init_map:
 	ret
