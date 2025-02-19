@@ -79,8 +79,12 @@ loop_collision_enemies:
 	lh a4, ENEMY_Y(s0) #inimigo atual
 	
 	memo(a0)
+	memo(a1)
+	memo(a2)
 	call TILE_INTERSECT
 	mv t0, a0
+	unmemo(a2)
+	unmemo(a1)
 	unmemo(a0)
 	beqz t0, continue_collision_enemies #se não colidiu ok
 	
@@ -140,7 +144,7 @@ loop_enemies:
 	unmemo(a1) #recupera as posições antigas
 	
 	beqz a0, continue_enemies #se não colidiu ok
-	print_int(a0)
+	#print_int(a0)
 	#print_int(a1)
 	#print_int(a2)
 	sh a1, ENEMY_X(s0)
